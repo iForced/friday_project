@@ -13,6 +13,7 @@ const App = () => {
     return (
         <div>
             <nav className={s.navbar}>
+                test commit
                 <NavLink to={'login'}>Login</NavLink>
                 <NavLink to={'registration'}>Registration</NavLink>
                 <NavLink to={'enterpassword'}>Enter password</NavLink>
