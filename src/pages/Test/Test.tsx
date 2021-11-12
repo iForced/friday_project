@@ -9,6 +9,7 @@ const Test = () => {
             <SuperInputText />
             <SuperCheckbox />
             <SuperButton />
+            test_mitpal
         </div>
     );
 };
