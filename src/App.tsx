@@ -8,7 +8,7 @@ import EnterNewPassword from "./pages/EnterNewPassword/EnterNewPassword";
 import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 import Profile from "./pages/Profile/Profile";
 import Page404 from "./pages/Page404/Page404";
-
+//test
 const App = () => {
     return (
         <div>
