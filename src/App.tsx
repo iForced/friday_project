@@ -8,6 +8,7 @@ import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 import Profile from "./pages/Profile/Profile";
 import Page404 from "./pages/Page404/Page404";
 import CheckEmail from "./pages/PasswordRecovery/CheckEmail/CheckEmail";
+import CreateNewPassword from "./pages/PasswordRecovery/CreateNewPassword/CreateNewPassword";
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
                 <NavLink to={'profile'}>Profile</NavLink>
                 <NavLink to={'404'}>404</NavLink>
                 <NavLink to={'checkemail'}>Check email</NavLink>
+                <NavLink to={'createnewpassword'}>Create new password</NavLink>
             </nav>
             <Routes>
                 <Route path={'login'} element={<Login/>}/>
@@ -29,6 +31,7 @@ const App = () => {
                 <Route path={'profile'} element={<Profile/>}/>
                 <Route path={'404'} element={<Page404/>}/>
                 <Route path={'checkemail'} element={<CheckEmail/>}/>
+                <Route path={'createnewpassword'} element={<CreateNewPassword/>}/>
             </Routes>
         </div>
     );
