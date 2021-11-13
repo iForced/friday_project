@@ -3,13 +3,14 @@ import s from './PasswordRecovery.module.css'
 import {Button, Card, Input} from 'antd';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {sendEmailThunk} from "../../store/recovery_pass/actions";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 const PasswordRecovery = () => {
 
     const dispatch = useDispatch()
-    const isEmailSent = useSelector<any, any>(state => state.recovery_pass_reducer.isEmailSent)
+    const isEmailSent = useTypedSelector(state => state.recovery_pass_reducer.isEmailSent)
     const navigate = useNavigate()
 
     useEffect(() => {

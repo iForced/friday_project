@@ -2,9 +2,13 @@ import React from 'react';
 import s from './CheckEmail.module.css'
 import {Card} from 'antd';
 import mailLogo from '../../../assets/mail_logo.png'
+import {useTypedSelector} from "../../../hooks/useTypedSelector";
 
 
 const CheckEmail = () => {
+
+    const email = useTypedSelector(state => state.recovery_pass_reducer.email)
+
     return (
         <div className={s.wrapper}>
             <Card
@@ -20,7 +24,7 @@ const CheckEmail = () => {
                 <h2>IT-Incubator</h2>
                 <img src={mailLogo} alt="Mail logo"/>
                 <p>Check Email</p>
-                <p>We’ve sent an Email with instructions to example@mail.com</p>
+                <p>We’ve sent an Email with instructions to {email}</p>
             </Card>
         </div>
     );

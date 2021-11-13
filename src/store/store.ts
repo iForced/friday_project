@@ -8,4 +8,6 @@ const rootReducer = combineReducers({
     recovery_pass_reducer,
 })
 
+export type RootStateType = ReturnType<typeof rootReducer>
+
 export const store = createStore(rootReducer, applyMiddleware(thunk))
