@@ -31,7 +31,7 @@ const App = () => {
                 <Route path={'profile'} element={<Profile/>}/>
                 <Route path={'404'} element={<Page404/>}/>
                 <Route path={'checkemail'} element={<CheckEmail/>}/>
-                <Route path={'createnewpassword'} element={<CreateNewPassword/>}/>
+                <Route path={'createnewpassword/:token'} element={<CreateNewPassword/>}/>
             </Routes>
         </div>
     );

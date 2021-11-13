@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ForgotPassRequestType, ForgotPassResponseType} from "./types";
+import {ForgotPassRequestType, CommonResponseType, SetNewPassRequestType} from "./types";
 
 const axiosInstance = axios.create({
     withCredentials: true,
@@ -9,7 +9,10 @@ const axiosInstance = axios.create({
 export const recovery_pass_api = () => {
     return {
         forgot(data: ForgotPassRequestType) {
-            return axiosInstance.post<ForgotPassResponseType>('/auth/forgot', data)
+            return axiosInstance.post<CommonResponseType>('/auth/forgot', data)
         },
+        setNewPass(data: SetNewPassRequestType) {
+            return axiosInstance.post<CommonResponseType>('/auth/set-new-password', data)
+        }
     }
 }

@@ -21,7 +21,7 @@ const PasswordRecovery = () => {
     const emailMessageForResetPass = `
         <div style="background-color: lime; padding: 15px">
         password recovery link:
-        <a href='https://iforced.github.io/friday_project/#/recoverypassword/$token$'>link</a></div>
+        <a href='https://iforced.github.io/friday_project/#/createnewpassword/$token$'>link</a></div>
     `
 
     const formik = useFormik({
