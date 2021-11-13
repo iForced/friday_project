@@ -3,15 +3,29 @@ import s from './PasswordRecovery.module.css'
 import {Button, Card, Input} from 'antd';
 import {NavLink} from "react-router-dom";
 import {useFormik} from "formik";
+import {useDispatch} from "react-redux";
+import {sendEmailThunk} from "../../store/recovery_pass/actions";
 
 const PasswordRecovery = () => {
+
+    const dispatch = useDispatch()
+
+    const emailMessageForResetPass = `
+        <div style="background-color: lime; padding: 15px">
+        password recovery link:
+        <a href='https://iforced.github.io/friday_project/#/recoverypassword/$token$'>link</a></div>
+    `
 
     const formik = useFormik({
         initialValues: {
             email: '',
         },
         onSubmit: values => {
-            alert(values.email)
+            dispatch(sendEmailThunk({
+                email: values.email,
+                from: 'Ilya',
+                message: emailMessageForResetPass,
+            }))
         }
     })
 

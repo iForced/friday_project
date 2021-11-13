@@ -9,7 +9,7 @@ const axiosInstance = axios.create({
 export const recovery_pass_api = () => {
     return {
         forgot(data: ForgotPassRequestType) {
-            axiosInstance.post<ForgotPassResponseType>('/auth/forgot', data)
+            return axiosInstance.post<ForgotPassResponseType>('/auth/forgot', data)
         },
     }
 }

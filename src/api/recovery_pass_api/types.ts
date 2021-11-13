@@ -4,6 +4,6 @@ export type ForgotPassResponseType = {
 }
 export type ForgotPassRequestType = {
     email: string
-    from: string
+    from?: string
     message: string
 }
