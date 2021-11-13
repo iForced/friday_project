@@ -1,14 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './PasswordRecovery.module.css'
 import {Button, Card, Input} from 'antd';
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {sendEmailThunk} from "../../store/recovery_pass/actions";
 
 const PasswordRecovery = () => {
 
     const dispatch = useDispatch()
+    const isEmailSent = useSelector<any, any>(state => state.recovery_pass_reducer.isEmailSent)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isEmailSent) {
+            navigate('/checkemail')
+        }
+    }, [isEmailSent])
 
     const emailMessageForResetPass = `
         <div style="background-color: lime; padding: 15px">
