@@ -1,6 +1,5 @@
 import React from 'react';
 import s from './App.module.css'
-import Test from "./pages/Test/Test";
 import {NavLink, Route, Routes} from "react-router-dom";
 import Login from "./pages/Login/Login";
 import Registration from "./pages/Registration/Registration";
@@ -8,12 +7,11 @@ import EnterNewPassword from "./pages/EnterNewPassword/EnterNewPassword";
 import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 import Profile from "./pages/Profile/Profile";
 import Page404 from "./pages/Page404/Page404";
-//test
+
 const App = () => {
     return (
         <div>
             <nav className={s.navbar}>
-                test commit
                 <NavLink to={'login'}>Login</NavLink>
                 <NavLink to={'registration'}>Registration</NavLink>
                 <NavLink to={'enterpassword'}>Enter password</NavLink>
@@ -29,7 +27,6 @@ const App = () => {
                 <Route path={'profile'} element={<Profile/>}/>
                 <Route path={'404'} element={<Page404/>}/>
             </Routes>
-            <Test/>
         </div>
     );
 };
