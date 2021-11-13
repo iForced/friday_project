@@ -7,6 +7,7 @@ import EnterNewPassword from "./pages/EnterNewPassword/EnterNewPassword";
 import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 import Profile from "./pages/Profile/Profile";
 import Page404 from "./pages/Page404/Page404";
+import CheckEmail from "./pages/PasswordRecovery/CheckEmail/CheckEmail";
 
 const App = () => {
     return (
@@ -18,6 +19,7 @@ const App = () => {
                 <NavLink to={'recoverypassword'}>Recovery password</NavLink>
                 <NavLink to={'profile'}>Profile</NavLink>
                 <NavLink to={'404'}>404</NavLink>
+                <NavLink to={'checkemail'}>Check email</NavLink>
             </nav>
             <Routes>
                 <Route path={'login'} element={<Login/>}/>
@@ -26,6 +28,7 @@ const App = () => {
                 <Route path={'recoverypassword'} element={<PasswordRecovery/>}/>
                 <Route path={'profile'} element={<Profile/>}/>
                 <Route path={'404'} element={<Page404/>}/>
+                <Route path={'checkemail'} element={<CheckEmail/>}/>
             </Routes>
         </div>
     );
