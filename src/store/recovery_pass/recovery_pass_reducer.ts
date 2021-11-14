@@ -4,8 +4,10 @@ import {RecoveryActions} from "./actions";
 
 const initialState: RecoveryPassInitialStateType = {
     email: '',
+    error: '',
     isEmailSent: false,
     isNewPasswordSent: false,
+    isFetching: false,
 }
 
 export const recovery_pass_reducer = (state: RecoveryPassInitialStateType = initialState, action: RecoveryPassActionTypes): RecoveryPassInitialStateType => {
@@ -19,6 +21,12 @@ export const recovery_pass_reducer = (state: RecoveryPassInitialStateType = init
 
         case RecoveryActions.SET_NEW_PASSWORD_SUCCESS:
             return {...state, isNewPasswordSent: true}
+
+        case RecoveryActions.SET_IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
+
+        case RecoveryActions.SET_ERROR:
+            return {...state, error: action.errorMessage}
 
         default:
             return state
