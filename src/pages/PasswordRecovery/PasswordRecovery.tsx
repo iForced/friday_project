@@ -1,24 +1,40 @@
 import React, {useEffect} from 'react';
 import s from './PasswordRecovery.module.css'
-import {Button, Card, Input, Spin} from 'antd';
+import {Button, Card, Input, notification, Spin} from 'antd';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
-import {sendEmailThunk} from "../../store/recovery_pass/actions";
+import {sendEmailThunk, setError} from "../../store/recovery_pass/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 
 const PasswordRecovery = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const isEmailSent = useTypedSelector(state => state.recovery_pass_reducer.isEmailSent)
     const isFetching = useTypedSelector(state => state.recovery_pass_reducer.isFetching)
-    const navigate = useNavigate()
+    const error = useTypedSelector(state => state.recovery_pass_reducer.error)
+
+    const onErrorNotification = () => {
+        notification.error({
+            message: 'Error',
+            description: error,
+            placement: 'topLeft',
+        });
+    }
 
     useEffect(() => {
         if (isEmailSent) {
             navigate('/checkemail')
         }
     }, [isEmailSent])
+
+    useEffect(() => {
+        if (error) {
+            onErrorNotification()
+            dispatch(setError(''))
+        }
+    }, [error])
 
     const emailMessageForResetPass = `
         <div style="background-color: lime; padding: 15px">
@@ -36,7 +52,6 @@ const PasswordRecovery = () => {
                 from: 'Ilya',
                 message: emailMessageForResetPass,
             }))
-            console.log(formik.errors.email)
         }
     })
 

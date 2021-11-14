@@ -44,12 +44,13 @@ export const sendEmailThunk = (recoveryData: ForgotPassRequestType) => (dispatch
     recovery_pass_api().forgot(recoveryData)
         .then(response => response.data)
         .then(() => {
+            dispatch(setError(''))
             dispatch(sendEmail(recoveryData.email))
             dispatch(sendEmailSuccess())
             dispatch(setIsFetching(false))
         })
         .catch(err => {
-            console.log(err.message)
+            dispatch(setError(err.response.data.error))
             dispatch(setIsFetching(false))
         })
 }
@@ -58,11 +59,12 @@ export const setNewPasswordThunk = (newPasswordData: SetNewPassRequestType) => (
     recovery_pass_api().setNewPass(newPasswordData)
         .then(response => response.data)
         .then(() => {
+            dispatch(setError(''))
             dispatch(setNewPasswordSuccess())
             dispatch(setIsFetching(false))
         })
         .catch(err => {
-            console.log(err.message)
+            dispatch(setError(err.response.data.error))
             dispatch(setIsFetching(false))
         })
 }
