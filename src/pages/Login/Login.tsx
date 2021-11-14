@@ -43,11 +43,7 @@ const Login = () => {
             formik.resetForm()
         },
     })
-
-    console.log('IsLoggeIn', isLoggedIn)
-
      if (isLoggedIn) {
-         console.log('tut')
          return  <Navigate to="/profile" replace />;
      }
 
