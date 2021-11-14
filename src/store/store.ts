@@ -6,7 +6,7 @@ import {regReducer} from "./registration/registration_reducer";
 
 const rootReducer = combineReducers({
     reducer,
-    registration: regReducer,
+    regReducer,
 })
 
 export type RootStateType = ReturnType<typeof rootReducer>
