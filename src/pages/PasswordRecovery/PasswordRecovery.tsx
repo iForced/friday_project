@@ -20,6 +20,7 @@ const PasswordRecovery = () => {
             message: 'Error',
             description: error,
             placement: 'topLeft',
+            top: 55,
         });
     }
 
