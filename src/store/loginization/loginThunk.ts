@@ -4,31 +4,28 @@ import {loginAPI} from '../../api/login_api';
 import {setAppStatusAC, setIsLoggedInAC} from './loginActions';
 
 
-
-
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
     loginAPI.login(data)
         .then(res => {
 
-            if (res.status  === 200) {
+            if (res.status === 200) {
                 dispatch(setIsLoggedInAC(true))
                 dispatch(setAppStatusAC('succeeded'))
             }
         })
-        .catch((e) =>{
+        .catch((e) => {
             console.log('Error: ', {...e})
-            const error = e.response ? e.response.data.error: (e.message + ',more details in the console')} )
-
-
-
+            const error = e.response ? e.response.data.error : e.message + ',more details in the console'
+            alert(error)
+        })
 }
 
 export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
     loginAPI.logout()
         .then(res => {
-            if (res.status  === 200) {
+            if (res.status === 200) {
                 dispatch(setIsLoggedInAC(false))
                 dispatch(setAppStatusAC('succeeded'))
             }

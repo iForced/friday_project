@@ -6,9 +6,22 @@
     justify-content: center;
     align-items: center;
 }
+
 .form {
     display: flex;
     flex-direction: column;
     gap: 20px;
     width: 100%;
+}
+
+.email {
+    color: darkred;
+    margin-left: 120px;
+    font-size: 12px;
+}
+
+.password {
+    color: darkred;
+    margin-left: 150px;
+    font-size: 12px;
 }

@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {loginTC} from '../../store/loginization/loginThunk';
 import {Navigate, NavLink} from 'react-router-dom';
 import {Button, Card, Input} from 'antd';
-import s from '../PasswordRecovery/PasswordRecovery.module.css';
+import s from './Login.module.css';
 import SuperCheckbox from '../../components/SuperCheckbox/SuperCheckbox';
 import {AppRootStateType} from '../../store/store';
 
@@ -21,14 +21,14 @@ const Login = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const formik = useFormik({
         initialValues: {
-            email: 'nya-admin@nya.nya',
-            password: '1qazxcvBG',
+            email: '',
+            password: '',
             rememberMe: false
         },
         validate: (values) => {
             const errors: FormikErrorType = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Email is required';
             }
             if (!values.password) {
                 errors.password = 'Field is required';
@@ -67,13 +67,16 @@ const Login = () => {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                     />
+                        {formik.errors.email? <div className={s.email}>{formik.errors.email}</div>:null}
                     </span>
                    <span>Enter your password: <Input
                        placeholder={'password'}
                        name={'password'}
                        value={formik.values.password}
                        onChange={formik.handleChange}
-                   /></span>
+                   />
+                       {formik.errors.password? <div className={s.password}>{formik.errors.password}</div>:null}
+                   </span>
                     <label>
                         <SuperCheckbox type={"checkbox"} />
                         remember me
