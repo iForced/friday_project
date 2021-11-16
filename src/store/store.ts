@@ -2,7 +2,7 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
 import {regReducer} from "./registration/registration_reducer";
 
-import {recoveryPassReducer} from "./recovery_pass/recovery_pass_reducer";
+import {recoveryPassReducer} from "./recovery_pass/recoveryPassReducer";
 import {loginReducer} from './loginization/loginReducer';
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
