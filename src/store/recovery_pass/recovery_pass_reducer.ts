@@ -10,7 +10,7 @@ const initialState: RecoveryPassInitialStateType = {
     isFetching: false,
 }
 
-export const recovery_pass_reducer = (state: RecoveryPassInitialStateType = initialState, action: RecoveryPassActionTypes): RecoveryPassInitialStateType => {
+export const recoveryPassReducer = (state: RecoveryPassInitialStateType = initialState, action: RecoveryPassActionTypes): RecoveryPassInitialStateType => {
     switch (action.type) {
 
         case RecoveryActions.SEND_EMAIL:

@@ -12,8 +12,8 @@ const CreateNewPassword = () => {
     const dispatch = useDispatch()
     const {token} = useParams();
     const navigate = useNavigate()
-    const isNewPasswordSent = useTypedSelector(state => state.recovery_pass_reducer.isNewPasswordSent)
-    const isFetching = useTypedSelector(state => state.recovery_pass_reducer.isFetching)
+    const isNewPasswordSent = useTypedSelector(state => state.recoveryPassReducer.isNewPasswordSent)
+    const isFetching = useTypedSelector(state => state.recoveryPassReducer.isFetching)
 
     useEffect(() => {
         if (isNewPasswordSent) {

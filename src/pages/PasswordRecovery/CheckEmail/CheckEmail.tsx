@@ -7,7 +7,7 @@ import {useTypedSelector} from "../../../hooks/useTypedSelector";
 
 const CheckEmail = () => {
 
-    const email = useTypedSelector(state => state.recovery_pass_reducer.email)
+    const email = useTypedSelector(state => state.recoveryPassReducer.email)
 
     return (
         <div className={s.wrapper}>

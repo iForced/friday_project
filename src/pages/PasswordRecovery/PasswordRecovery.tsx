@@ -11,9 +11,9 @@ const PasswordRecovery = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const isEmailSent = useTypedSelector(state => state.recovery_pass_reducer.isEmailSent)
-    const isFetching = useTypedSelector(state => state.recovery_pass_reducer.isFetching)
-    const error = useTypedSelector(state => state.recovery_pass_reducer.error)
+    const isEmailSent = useTypedSelector(state => state.recoveryPassReducer.isEmailSent)
+    const isFetching = useTypedSelector(state => state.recoveryPassReducer.isFetching)
+    const error = useTypedSelector(state => state.recoveryPassReducer.error)
 
     const onErrorNotification = () => {
         notification.error({
