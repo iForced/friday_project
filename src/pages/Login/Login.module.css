@@ -1,0 +1,27 @@
+.wrapper {
+    margin: 0 auto;
+    max-width: 1280px;
+    display: flex;
+    min-height: calc(100vh - 22px);
+    justify-content: center;
+    align-items: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.email {
+    color: darkred;
+    margin-left: 120px;
+    font-size: 12px;
+}
+
+.password {
+    color: darkred;
+    margin-left: 150px;
+    font-size: 12px;
+}
