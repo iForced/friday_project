@@ -1,13 +1,15 @@
 import React from 'react';
 import s from './Header.module.css';
 import {Menu} from 'antd';
-import {AppstoreOutlined, SettingOutlined, UserOutlined, SnippetsOutlined, SolutionOutlined} from '@ant-design/icons';
+import {SettingOutlined, UserOutlined, SnippetsOutlined, SolutionOutlined} from '@ant-design/icons';
 import {GithubOutlined} from "@ant-design/icons";
 import logo from './react.svg';
+import {useNavigate} from "react-router-dom";
 
 
 const Header = () => {
     const {SubMenu} = Menu;
+    let navigate = useNavigate();
 
 
     return (
@@ -20,21 +22,21 @@ const Header = () => {
                 <Menu.ItemGroup>
                     <Menu.Item>Игнат Закалинский</Menu.Item>
                     <Menu.Item icon={<GithubOutlined/>}>
-                        <a href="https://github.com/iForced" target="_blank" rel="noopener noreferrer"></a>
-                        Илья Орсич</Menu.Item>
+                        <a href="https://github.com/iForced" target="_blank" rel="noopener noreferrer">Илья Орсич</a>
+                        </Menu.Item>
                     <Menu.Item icon={<GithubOutlined/>}>
-                        <a href="https://github.com/MitPalVach" target="_blank" rel="noopener noreferrer"></a>
-                        Дмитрий Вачугов</Menu.Item>
+                        <a href="https://github.com/MitPalVach" target="_blank" rel="noopener noreferrer">Дмитрий Вачугов</a>
+                        </Menu.Item>
                     <Menu.Item icon={<GithubOutlined/>}>
-                        <a href="https://github.com/NepoGostu" target="_blank" rel="noopener noreferrer"></a>
-                        Андрей Зуев</Menu.Item>
+                        <a href="https://github.com/NepoGostu" target="_blank" rel="noopener noreferrer">Андрей Зуев</a>
+                        </Menu.Item>
                 </Menu.ItemGroup>
             </SubMenu>
             <SubMenu key="SubMenu1" icon={<SolutionOutlined/>} title="Authorization">
                 <Menu.ItemGroup>
-                    <Menu.Item disabled icon={<AppstoreOutlined/>}>Sign in</Menu.Item>
-                    <Menu.Item icon={<AppstoreOutlined/>}>Sign up</Menu.Item>
-                    <Menu.Item disabled icon={<AppstoreOutlined/>}>Sign out</Menu.Item>
+                    <Menu.Item  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign in</Menu.Item>
+                    <Menu.Item icon={<SolutionOutlined/>} onClick={()=> navigate('/registration')}>Sign up</Menu.Item>
+                    <Menu.Item  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign out</Menu.Item>
                 </Menu.ItemGroup>
             </SubMenu>
         </Menu>

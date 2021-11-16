@@ -6,7 +6,6 @@ import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 import Profile from "./pages/Profile/Profile";
 import Page404 from "./pages/Page404/Page404";
 import Login from './pages/Login/Login';
-
 import Header from "./components/Header/Header";
 import CheckEmail from "./pages/PasswordRecovery/CheckEmail/CheckEmail";
 import CreateNewPassword from "./pages/PasswordRecovery/CreateNewPassword/CreateNewPassword";
