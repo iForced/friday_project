@@ -6,6 +6,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {setNewPasswordThunk} from "../../../store/recoveryPass/actions";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
+import {FormikErrorType} from "../../../store/registration/regTypes";
 
 const CreateNewPassword = () => {
 
@@ -30,7 +31,16 @@ const CreateNewPassword = () => {
                 password: values.password,
                 resetPasswordToken: token,
             }))
-        }
+        },
+        validate: (values) => {
+            const errors: FormikErrorType = {};
+            if (!values.password) {
+                errors.password = 'Password is required!';
+            } else if (values.password.length < 7) {
+                errors.password = 'Password at least 7 characters';
+            }
+            return errors;
+        },
     })
 
     return (
@@ -51,10 +61,9 @@ const CreateNewPassword = () => {
                     <form onSubmit={formik.handleSubmit} className={s.form}>
                         <Input.Password
                             placeholder={'Password'}
-                            name={'password'}
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
+                            {...formik.getFieldProps('password')}
                         />
+                        <div className={s.errorText}>{formik.touched.password && formik.errors.password && formik.errors.password}</div>
                         <p>Create new password and we will send you further instructions to email</p>
                         <Button
                             shape={'round'}
