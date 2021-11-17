@@ -1,7 +1,7 @@
 import {ForgotPassRequestType, CommonResponseType, SetNewPassRequestType} from "./types";
 import {instance} from "../api";
 
-export const recovery_pass_api = () => {
+export const recoveryPassApi = () => {
     return {
         forgot(data: ForgotPassRequestType) {
             return instance.post<CommonResponseType>('auth/forgot', data)

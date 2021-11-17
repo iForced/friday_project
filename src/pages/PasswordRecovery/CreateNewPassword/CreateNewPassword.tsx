@@ -4,7 +4,7 @@ import {Button, Card, Input, Spin} from 'antd';
 import {useFormik} from "formik";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {setNewPasswordThunk} from "../../../store/recovery_pass/actions";
+import {setNewPasswordThunk} from "../../../store/recoveryPass/actions";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
 
 const CreateNewPassword = () => {
@@ -12,8 +12,8 @@ const CreateNewPassword = () => {
     const dispatch = useDispatch()
     const {token} = useParams();
     const navigate = useNavigate()
-    const isNewPasswordSent = useTypedSelector(state => state.recoveryPassReducer.isNewPasswordSent)
-    const isFetching = useTypedSelector(state => state.recoveryPassReducer.isFetching)
+    const isNewPasswordSent = useTypedSelector(state => state.recoveryPass.isNewPasswordSent)
+    const isFetching = useTypedSelector(state => state.recoveryPass.isFetching)
 
     useEffect(() => {
         if (isNewPasswordSent) {

@@ -21,7 +21,7 @@ const App = () => {
                 <Route path={'/recoverypassword'} element={<PasswordRecovery/>}/>
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/*'} element={<Page404/>}/>
-                <Route path={'checkemail'} element={<CheckEmail/>}/>
+                <Route path={'/checkemail'} element={<CheckEmail/>}/>
                 <Route path={'createnewpassword/:token'} element={<CreateNewPassword/>}/>
             </Routes>
         </div>
