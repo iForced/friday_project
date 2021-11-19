@@ -17,6 +17,5 @@ export const loginAPI = {
         return instance.delete <ResponseType<{ userId: number }>>
         ('/auth/login')
     }
-
 }
 

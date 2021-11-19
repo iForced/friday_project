@@ -79,7 +79,7 @@ const Login = () => {
                    </span>
                     <label>
                         <SuperCheckbox type={"checkbox"} />
-                        remember me
+                        <span> remember me</span>
                     </label>
                     <Button
                         shape={'round'}
