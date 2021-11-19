@@ -3,9 +3,8 @@ import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginTC} from '../../store/loginization/loginThunk';
 import {Navigate, NavLink} from 'react-router-dom';
-import {Button, Card, Input} from 'antd';
+import {Button, Card, Checkbox, Input} from 'antd';
 import s from './Login.module.css';
-import SuperCheckbox from '../../components/SuperCheckbox/SuperCheckbox';
 import {AppRootStateType} from '../../store/store';
 
 
@@ -78,7 +77,7 @@ const Login = () => {
                        {formik.errors.password? <div className={s.password}>{formik.errors.password}</div>:null}
                    </span>
                     <label>
-                        <SuperCheckbox type={"checkbox"} />
+                        <Checkbox />
                         remember me
                     </label>
                     <Button

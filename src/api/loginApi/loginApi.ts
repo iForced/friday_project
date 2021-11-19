@@ -1,6 +1,6 @@
 import {AxiosResponse} from 'axios';
-import {LoginParamsType, ResponseType} from '../store/loginization/loginTypes';
-import {localInstance} from "./api";
+import {LoginParamsType, ResponseType} from '../../store/loginization/loginTypes';
+import {localInstance} from "../api";
 
 export const loginAPI = {
     login(data: LoginParamsType) {
