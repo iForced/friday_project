@@ -1,6 +1,6 @@
 import {ActionsType, LoginParamsType} from './loginTypes';
 import {Dispatch} from 'redux';
-import {loginAPI} from '../../api/login_api';
+import {loginAPI} from '../../api/loginApi/loginApi';
 import {setAppStatusAC, setIsLoggedInAC} from './loginActions';
 
 

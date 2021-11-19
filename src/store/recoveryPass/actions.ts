@@ -1,6 +1,6 @@
-import {recovery_pass_api} from "../../api/recovery_pass_api/recovery_pass_api";
+import {recoveryPassApi} from "../../api/recoveryPassApi/recoveryPassApi";
 import {Dispatch} from "redux";
-import {ForgotPassRequestType, SetNewPassRequestType} from "../../api/recovery_pass_api/types";
+import {ForgotPassRequestType, SetNewPassRequestType} from "../../api/recoveryPassApi/types";
 
 export enum RecoveryActions {
     SEND_EMAIL = 'RECOVERY/SEND_EMAIL',
@@ -41,7 +41,7 @@ export const setIsFetching = (isFetching: boolean) => {
 
 export const sendEmailThunk = (recoveryData: ForgotPassRequestType) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    recovery_pass_api().forgot(recoveryData)
+    recoveryPassApi().forgot(recoveryData)
         .then(response => response.data)
         .then(() => {
             dispatch(setError(''))
@@ -56,7 +56,7 @@ export const sendEmailThunk = (recoveryData: ForgotPassRequestType) => (dispatch
 }
 export const setNewPasswordThunk = (newPasswordData: SetNewPassRequestType) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    recovery_pass_api().setNewPass(newPasswordData)
+    recoveryPassApi().setNewPass(newPasswordData)
         .then(response => response.data)
         .then(() => {
             dispatch(setError(''))

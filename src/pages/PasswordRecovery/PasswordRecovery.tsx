@@ -4,16 +4,17 @@ import {Button, Card, Input, notification, Spin} from 'antd';
 import {NavLink, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
-import {sendEmailThunk, setError} from "../../store/recovery_pass/actions";
+import {sendEmailThunk, setError} from "../../store/recoveryPass/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {FormikErrorType} from "../../store/registration/regTypes";
 
 const PasswordRecovery = () => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const isEmailSent = useTypedSelector(state => state.recoveryPassReducer.isEmailSent)
-    const isFetching = useTypedSelector(state => state.recoveryPassReducer.isFetching)
-    const error = useTypedSelector(state => state.recoveryPassReducer.error)
+    const isEmailSent = useTypedSelector(state => state.recoveryPass.isEmailSent)
+    const isFetching = useTypedSelector(state => state.recoveryPass.isFetching)
+    const error = useTypedSelector(state => state.recoveryPass.error)
 
     const onErrorNotification = () => {
         notification.error({
@@ -53,6 +54,15 @@ const PasswordRecovery = () => {
                 from: 'Ilya',
                 message: emailMessageForResetPass,
             }))
+        },
+        validate: values => {
+            const errors: FormikErrorType = {};
+            if (!values.email) {
+                errors.email = 'Email is required!';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Incorrect email';
+            }
+            return errors;
         }
     })
 
@@ -73,10 +83,9 @@ const PasswordRecovery = () => {
                     <form onSubmit={formik.handleSubmit} className={s.form}>
                         <Input
                             placeholder={'Email'}
-                            name={'email'}
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
+                            {...formik.getFieldProps('email')}
                         />
+                        <div className={s.errorText}>{formik.touched.email && formik.errors.email && formik.errors.email}</div>
                         <small>Enter your email address and we will send you further instructions</small>
                         <Button
                             shape={'round'}
