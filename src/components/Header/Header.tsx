@@ -6,7 +6,7 @@ import {GithubOutlined} from '@ant-design/icons';
 import logo from './react.svg';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
-import {logoutTC} from '../../store/loginization/loginThunk';
+import {logoutTC} from '../../store/loginization/loginActions';
 
 
 const Header = () => {

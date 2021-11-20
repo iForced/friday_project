@@ -1,7 +1,7 @@
 import React from 'react';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
-import {loginTC} from '../../store/loginization/loginThunk';
+import {loginTC} from '../../store/loginization/loginActions';
 import {Navigate, NavLink} from 'react-router-dom';
 import {Button, Card, Checkbox, Input} from 'antd';
 import s from './Login.module.css';
@@ -78,7 +78,7 @@ const Login = () => {
                    </span>
                     <label>
                         <Checkbox />
-                        remember me
+                        <span> remember me</span>
                     </label>
                     <Button
                         shape={'round'}

@@ -1,16 +1,10 @@
-import {setAppErrorAC, setAppStatusAC, setIsInitializedAC, setIsLoggedInAC} from './loginActions';
+import { setIsInitializedAC, setIsLoggedInAC} from './loginActions';
+import {initialState} from './loginReducer';
 
 export type LoginParamsType = {
     email: string,
     password: string,
     rememberMe: boolean,
-    captcha?: string
-}
-
-export type MeType = {
-    id: number,
-    email: string,
-    login: string
 }
 
 export type ResponseType<D = {}> = {
@@ -19,21 +13,10 @@ export type ResponseType<D = {}> = {
     data: D
 }
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type InitialStateType = {
+export type InitialStateType = typeof initialState
 
-    status: RequestStatusType
-    error: string | null
-    isInitialized: boolean
-}
+export type ActionsType = SetIsLoggedInActionType | SetIsInitializedActionType
 
-export type ActionsType =
-    ReturnType<typeof setIsLoggedInAC>
-    | SetAppStatusActionType
-    | SetAppErrorActionType
-    | SetIsInitializedActionType
-
-export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type SetIsInitializedActionType = ReturnType<typeof setIsInitializedAC>
+export type SetIsLoggedInActionType = ReturnType<typeof setIsLoggedInAC>
 
