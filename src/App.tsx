@@ -9,6 +9,7 @@ import Login from './pages/Login/Login';
 import Header from "./components/Header/Header";
 import CheckEmail from "./pages/PasswordRecovery/CheckEmail/CheckEmail";
 import CreateNewPassword from "./pages/PasswordRecovery/CreateNewPassword/CreateNewPassword";
+import PacksTable from "./pages/PacksTable/PacksTable";
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ const App = () => {
                 <Route path={'/*'} element={<Page404/>}/>
                 <Route path={'/checkemail'} element={<CheckEmail/>}/>
                 <Route path={'createnewpassword/:token'} element={<CreateNewPassword/>}/>
+                <Route path={'/packs'} element={<PacksTable/>}/>
             </Routes>
         </div>
     );
