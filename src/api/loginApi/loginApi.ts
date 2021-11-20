@@ -8,8 +8,8 @@ export const loginAPI = {
         ('/auth/login', data)
     },
     logout() {
-        return localInstance.delete <ResponseType<{ userId: number }>>
-        ('/auth/login')
+        return localInstance.delete<ResponseType<{ userId: number }>>
+        ('/auth/me')
     }
 
 }

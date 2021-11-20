@@ -20,8 +20,8 @@ const Login = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: 'nya-admin@nya.nya',
+            password: '1qazxcvBG',
             rememberMe: false
         },
         validate: (values) => {
@@ -42,10 +42,10 @@ const Login = () => {
             formik.resetForm()
         },
     })
+
      if (isLoggedIn) {
          return  <Navigate to="/profile" replace />;
      }
-
 
     return (
         <div className={s.wrapper}>
