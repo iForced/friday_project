@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import s from './PacksTable.module.css'
-import {Button, Layout, Slider, Table} from "antd";
+import {Button, Input, Layout, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
 import {getPacksThunk, setPage} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
+import ActionsColumn from "./ActionsColumn/ActionsColumn";
 
 const PacksTable = () => {
 
@@ -13,6 +14,10 @@ const PacksTable = () => {
     const packsData = useTypedSelector(state => state.packsTable.packs)
     const page = useTypedSelector(state => state.packsTable.page)
     const pageCount = useTypedSelector(state => state.packsTable.pageCount)
+
+    useEffect(() => {
+        dispatch(getPacksThunk())
+    }, [])
 
     const columns = [
         {
@@ -22,16 +27,27 @@ const PacksTable = () => {
             width: '20%',
         },
         {
-            title: 'Cards count',
+            title: 'Cards',
             dataIndex: 'cardsCount',
             sorter: true,
             width: '20%',
         },
         {
-            title: 'Updated',
+            title: 'Last updated',
             dataIndex: 'updated',
             sorter: true,
             width: '20%',
+        },
+        {
+            title: 'Created by',
+            dataIndex: 'user_name',
+            sorter: true,
+            width: '20%',
+        },
+        {
+            title: 'Actions',
+            width: '20%',
+            render: () => <ActionsColumn />
         },
     ]
 
@@ -48,21 +64,29 @@ const PacksTable = () => {
     const maxNumberOfCards = 200
 
     return (
-
         <Layout style={{height: '100vh'}}>
             <Sider theme={'light'} style={{padding: '10px 20px'}} width={350}>
-                <h3>Show packs cards</h3>
-                <div>
-                    <Button>My</Button>
-                    <Button>All</Button>
-                </div>
-                <div>
-                    <h3>Number of cards</h3>
-                    <Slider range tooltipVisible={true} min={minNumberOfCards} max={maxNumberOfCards} defaultValue={[0, 200]} />
+                <div className={s.showOptions}>
+                    <div>
+                        <h3>Show packs cards</h3>
+                        <div className={s.showPacksButtons}>
+                            <Button>My</Button>
+                            <Button>All</Button>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Number of cards</h3>
+                        <Slider range tooltipVisible={true} tooltipPlacement={'bottom'} min={minNumberOfCards} max={maxNumberOfCards} defaultValue={[0, 200]} />
+                    </div>
                 </div>
             </Sider>
             <Content>
                 <div className={s.tableContainer}>
+                    <h2>Pack list</h2>
+                    <div className={s.tableContainerHeader}>
+                        <Input placeholder={'Search...'} style={{width: '50%', margin: '20px 0', padding: '10px 20px'}} />
+                        <Button type={'primary'} shape={'round'}>Add new pack</Button>
+                    </div>
                     <Table
                         columns={columns}
                         dataSource={packsData}
@@ -70,7 +94,7 @@ const PacksTable = () => {
                         loading={false}
                         onChange={handleTableChange}
                     />
-                    <button onClick={() => dispatch(getPacksThunk())}>test</button>
+                    {/*<button onClick={() => dispatch(getPacksThunk())}>test</button>*/}
                 </div>
             </Content>
         </Layout>

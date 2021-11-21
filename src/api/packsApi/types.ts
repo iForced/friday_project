@@ -22,7 +22,7 @@ export type PackType = {
     // type: string
     updated: string
     user_id: string
-    // user_name: string
+    user_name: string
     // __v: number
     _id: string
 }
