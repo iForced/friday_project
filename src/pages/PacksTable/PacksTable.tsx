@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
-import {getPacksThunk, setPage} from "../../store/packsTable/actions";
+import {addPackThunk, getPacksThunk, setPage} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
@@ -13,7 +13,7 @@ const PacksTable = () => {
     const dispatch = useDispatch()
     const packsData = useTypedSelector(state => state.packsTable.packs)
     const page = useTypedSelector(state => state.packsTable.page)
-    const pageCount = useTypedSelector(state => state.packsTable.pageCount)
+    const pageCount = useTypedSelector(state => state.packsTable.packsPerPage)
 
     useEffect(() => {
         dispatch(getPacksThunk())
@@ -53,11 +53,14 @@ const PacksTable = () => {
 
     const pagination = {
         current: page,
-        pageSize: pageCount,
+        // pageSize: pageCount,
     }
 
     const handleTableChange = (pagination: any, filters: any, sorter: any) => {
         dispatch(setPage(pagination.current))
+    }
+    const handleAddPack = () => {
+        dispatch(addPackThunk('alo'))
     }
 
     const minNumberOfCards = 0
@@ -85,7 +88,7 @@ const PacksTable = () => {
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'} style={{width: '50%', margin: '20px 0', padding: '10px 20px'}} />
-                        <Button type={'primary'} shape={'round'}>Add new pack</Button>
+                        <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
                     </div>
                     <Table
                         columns={columns}

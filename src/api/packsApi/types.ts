@@ -26,3 +26,8 @@ export type PackType = {
     // __v: number
     _id: string
 }
+export type AddPackResponseType = {
+    newCardsPack: PackType
+    token: string
+    tokenDeathTime: number
+}
