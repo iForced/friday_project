@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
-import {addPackThunk, getPacksThunk, setPage} from "../../store/packsTable/actions";
+import {addPackThunk, getPacksThunk, setPage, setPageThunk} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
@@ -13,11 +13,14 @@ const PacksTable = () => {
     const dispatch = useDispatch()
     const packsData = useTypedSelector(state => state.packsTable.packs)
     const page = useTypedSelector(state => state.packsTable.page)
-    const pageCount = useTypedSelector(state => state.packsTable.packsPerPage)
+    const packsTotalCount = useTypedSelector(state => state.packsTable.cardPacksTotalCount)
+
+    const packsPerPage = packsTotalCount / 4
+    const totalPages = packsTotalCount / 10
 
     useEffect(() => {
-        dispatch(getPacksThunk())
-    }, [])
+        dispatch(getPacksThunk(page))
+    }, [page])
 
     const columns = [
         {
@@ -53,11 +56,12 @@ const PacksTable = () => {
 
     const pagination = {
         current: page,
-        // pageSize: pageCount,
+        pageSize: 10,
+        total: packsTotalCount,
     }
 
     const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-        dispatch(setPage(pagination.current))
+        dispatch(setPageThunk(pagination.current))
     }
     const handleAddPack = () => {
         dispatch(addPackThunk('alo'))
