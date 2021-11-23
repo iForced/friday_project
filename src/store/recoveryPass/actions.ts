@@ -8,6 +8,7 @@ export enum RecoveryActions {
     SET_NEW_PASSWORD_SUCCESS = 'RECOVERY/SET_NEW_PASSWORD_SUCCESS',
     SET_IS_FETCHING = 'RECOVERY/SET_IS_FETCHING',
     SET_ERROR = 'RECOVERY/SET_ERROR',
+
 }
 
 export const sendEmail = (email: string) => {

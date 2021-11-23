@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from 'react-redux';
 import {loginTC} from '../../store/loginization/loginActions';
 import {Navigate, NavLink} from 'react-router-dom';
-import {Button, Card, Checkbox, Input} from 'antd';
+import {Button, Card, Checkbox, Input, message, notification} from 'antd';
 import s from './Login.module.css';
 import {AppRootStateType} from '../../store/store';
-
+import {useTypedSelector} from '../../hooks/useTypedSelector';
+import {setError} from '../../store/recoveryPass/actions';
 
 
 type FormikErrorType = {
@@ -18,10 +19,28 @@ type FormikErrorType = {
 const Login = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const error = useTypedSelector(state => state.recoveryPass.error)
+
+    const onErrorNotification = (message: string) => {
+        notification.error({
+            message: message,
+            placement: 'topLeft',
+            top: 55,
+        });
+    }
+    useEffect(() => {
+        if (error) {
+            onErrorNotification(error)
+            dispatch(setError(''))
+        }
+    }, [error])
+
     const formik = useFormik({
         initialValues: {
-            email: 'nya-admin@nya.nya',
-            password: '1qazxcvBG',
+            /*      email: 'nya-admin@nya.nya',
+                  password: '1qazxcvBG',*/
+            email: '',
+            password: '',
             rememberMe: false
         },
         validate: (values) => {
@@ -37,15 +56,14 @@ const Login = () => {
             return errors;
         },
         onSubmit: values => {
-
             dispatch(loginTC(values))
             formik.resetForm()
         },
     })
 
-     if (isLoggedIn) {
-         return  <Navigate to="/profile" replace />;
-     }
+    if (isLoggedIn) {
+        return <Navigate to="/profile" replace/>;
+    }
 
     return (
         <div className={s.wrapper}>
@@ -60,24 +78,26 @@ const Login = () => {
             >
                 <h2>IT-Incubator</h2>
                 <form onSubmit={formik.handleSubmit} className={s.form}>
-                    <span> Enter your email: <Input
+                    <Input
                         placeholder={'Email'}
                         name={'email'}
                         value={formik.values.email}
                         onChange={formik.handleChange}
                     />
-                        {formik.errors.email? <div className={s.email}>{formik.errors.email}</div>:null}
-                    </span>
-                   <span>Enter your password: <Input
-                       placeholder={'password'}
-                       name={'password'}
-                       value={formik.values.password}
-                       onChange={formik.handleChange}
-                   />
-                       {formik.errors.password? <div className={s.password}>{formik.errors.password}</div>:null}
-                   </span>
+                    {formik.errors.email ? <div className={s.email}>{formik.errors.email}</div> : null}
+                    <Input.Password
+                        placeholder={'Password'}
+                        name={'password'}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                    />
+                    {formik.errors.password ? <div className={s.password}>{formik.errors.password}</div> : null}
                     <label>
-                        <Checkbox />
+                        <Checkbox
+                            {...formik.getFieldProps('rememberMe')}
+                            checked={formik.values.rememberMe}
+                        />
+
                         <span> remember me</span>
                     </label>
                     <Button

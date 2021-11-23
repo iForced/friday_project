@@ -1,14 +1,13 @@
-import {AxiosResponse} from 'axios';
-import {LoginParamsType, ResponseType} from '../../store/loginization/loginTypes';
-import {localInstance} from "../api";
+import {herokuInstance} from '../api';
+import {LoginParamsType, ResponseType} from './types'
 
 export const loginAPI = {
     login(data: LoginParamsType) {
-        return localInstance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>
+        return herokuInstance.post<LoginParamsType>
         ('/auth/login', data)
     },
     logout() {
-        return localInstance.delete<ResponseType<{ userId: number }>>
+        return herokuInstance.delete<ResponseType>
         ('/auth/me')
     }
 
