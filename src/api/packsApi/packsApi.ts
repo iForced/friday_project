@@ -1,16 +1,16 @@
-import {localInstance} from "../api";
+import {herokuInstance, localInstance} from "../api";
 import {AddPackResponseType, GetPacksResponseType} from "./types";
 
 export const packsApi = () => {
     return {
-        getCards(pageNumber: number) {
-            return localInstance.get<GetPacksResponseType>(`/cards/pack?page=${pageNumber}`)
+        getCards(pageNumber: number, pageSize: number) {
+            return herokuInstance.get<GetPacksResponseType>(`/cards/pack?page=${pageNumber}&pageCount=${pageSize}`)
         },
         setPage(newPage: number) {
-            return localInstance.get<GetPacksResponseType>(`/cards/pack?page=${newPage}`)
+            return herokuInstance.get<GetPacksResponseType>(`/cards/pack?page=${newPage}`)
         },
         addPack(packName: string) {
-            return localInstance.post<AddPackResponseType>(`/cards/pack`, {cardsPack: {name: packName}})
+            return herokuInstance.post<AddPackResponseType>(`/cards/pack`, {cardsPack: {name: packName}})
         }
     }
 }

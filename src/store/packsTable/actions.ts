@@ -7,6 +7,7 @@ export enum PacksActions {
     SET_PAGE = 'PACKS/SET_PAGE',
     ADD_PACK = 'PACKS/ADD_PACK',
     SET_PACKS_TOTAL_COUNT = 'PACKS/SET_PACKS_TOTAL_COUNT',
+    SET_PAGE_SIZE = 'PACKS/SET_PAGE_SIZE',
 }
 
 export const setPacks = (packs: Array<PackType>) => {
@@ -33,20 +34,19 @@ export const setPacksTotalCount = (count: number) => {
         count,
     } as const
 }
+export const setPageSize = (pageSize: number) => {
+    return {
+        type: PacksActions.SET_PAGE_SIZE,
+        pageSize,
+    } as const
+}
 
-export const getPacksThunk = (pageNumber: number) => (dispatch: Dispatch) => {
-    packsApi().getCards(pageNumber)
+export const getPacksThunk = (pageNumber: number, pageSize: number) => (dispatch: Dispatch) => {
+    packsApi().getCards(pageNumber, pageSize)
         .then(response => response.data)
         .then(data => {
             dispatch(setPacks(data.cardPacks))
             dispatch(setPacksTotalCount(data.cardPacksTotalCount))
-        })
-}
-export const setPageThunk = (newPage: number) => (dispatch: Dispatch) => {
-    packsApi().setPage(newPage)
-        .then(response => response.data)
-        .then(data => {
-            dispatch(setPage(data.page))
         })
 }
 export const addPackThunk = (packName: string) => (dispatch: Dispatch) => {

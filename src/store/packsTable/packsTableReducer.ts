@@ -4,7 +4,8 @@ import {PacksActions} from "./actions";
 const initialState: PacksInitialStateType = {
     packs: [],
     page: 1,
-    cardPacksTotalCount: 4,
+    cardPacksTotalCount: 0,
+    pageSize: 10,
 }
 
 export const packsTableReducer = (state: PacksInitialStateType = initialState, action: PacksActionTypes): PacksInitialStateType => {
@@ -22,6 +23,9 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
         case PacksActions.ADD_PACK:
             const newPack = action.newPack
             return {...state, packs: [...state.packs, newPack]}
+
+        case PacksActions.SET_PAGE_SIZE:
+            return {...state, pageSize: action.pageSize}
 
         default:
             return state

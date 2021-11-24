@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
-import {addPackThunk, getPacksThunk, setPage, setPageThunk} from "../../store/packsTable/actions";
+import {addPackThunk, getPacksThunk, setPage, setPageSize} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
@@ -14,13 +14,11 @@ const PacksTable = () => {
     const packsData = useTypedSelector(state => state.packsTable.packs)
     const page = useTypedSelector(state => state.packsTable.page)
     const packsTotalCount = useTypedSelector(state => state.packsTable.cardPacksTotalCount)
-
-    const packsPerPage = packsTotalCount / 4
-    const totalPages = packsTotalCount / 10
+    const packsPerPage = useTypedSelector(state => state.packsTable.pageSize)
 
     useEffect(() => {
-        dispatch(getPacksThunk(page))
-    }, [page])
+        dispatch(getPacksThunk(page, packsPerPage))
+    }, [page, packsPerPage])
 
     const columns = [
         {
@@ -56,22 +54,24 @@ const PacksTable = () => {
 
     const pagination = {
         current: page,
-        pageSize: 10,
+        pageSize: packsPerPage,
         total: packsTotalCount,
     }
 
-    const handleTableChange = (pagination: any, filters: any, sorter: any) => {
-        dispatch(setPageThunk(pagination.current))
+    const handleTableChange = (pagination: any, sorter: any) => {
+        dispatch(setPage(pagination.current))
+        dispatch(setPageSize(pagination.pageSize))
     }
     const handleAddPack = () => {
         dispatch(addPackThunk('alo'))
+        dispatch(getPacksThunk(page, packsPerPage))
     }
 
     const minNumberOfCards = 0
     const maxNumberOfCards = 200
 
     return (
-        <Layout style={{height: '100vh'}}>
+        <Layout style={{minHeight: '100vh'}}>
             <Sider theme={'light'} style={{padding: '10px 20px'}} width={350}>
                 <div className={s.showOptions}>
                     <div>
@@ -101,7 +101,6 @@ const PacksTable = () => {
                         loading={false}
                         onChange={handleTableChange}
                     />
-                    {/*<button onClick={() => dispatch(getPacksThunk())}>test</button>*/}
                 </div>
             </Content>
         </Layout>
