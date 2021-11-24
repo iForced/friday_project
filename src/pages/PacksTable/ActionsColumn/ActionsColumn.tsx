@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './ActionsColumn.module.css'
 import {Button} from "antd";
+import {NavLink} from "react-router-dom";
 
 type PropsType = {
     onDeletePack: (packId: string) => void
@@ -13,7 +14,7 @@ const ActionsColumn = React.memo((props: PropsType) => {
         <div className={s.buttons}>
             <Button danger type={'primary'} onClick={() => props.onDeletePack(props.packId)}>Delete</Button>
             <Button>Edit</Button>
-            <Button>Learn</Button>
+            <Button><NavLink to={`/${props.packId}/cards`}>Learn</NavLink></Button>
         </div>
     );
 })

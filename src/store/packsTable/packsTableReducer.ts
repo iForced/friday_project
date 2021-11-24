@@ -6,6 +6,8 @@ const initialState: PacksInitialStateType = {
     page: 1,
     cardPacksTotalCount: 0,
     pageSize: 10,
+    isFetching: false,
+    error: '',
 }
 
 export const packsTableReducer = (state: PacksInitialStateType = initialState, action: PacksActionTypes): PacksInitialStateType => {
@@ -29,6 +31,12 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
 
         case PacksActions.DElETE_PACK:
             return {...state, packs: state.packs.filter(pack => pack._id !== action.packId)}
+
+        case PacksActions.SET_IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
+
+        case PacksActions.SET_ERROR:
+            return {...state, error: action.error}
 
         default:
             return state

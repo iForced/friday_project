@@ -1,4 +1,13 @@
-import {addPack, deletePack, setPacks, setPacksTotalCount, setPage, setPageSize} from "./actions";
+import {
+    addPack,
+    deletePack,
+    setError,
+    setIsFetching,
+    setPacks,
+    setPacksTotalCount,
+    setPage,
+    setPageSize
+} from "./actions";
 import {PackType} from "../../api/packsApi/types";
 
 export type PacksInitialStateType = {
@@ -6,6 +15,8 @@ export type PacksInitialStateType = {
     page: number,
     cardPacksTotalCount: number
     pageSize: number
+    isFetching: boolean
+    error: string
 }
 
 export type PacksActionTypes =
@@ -15,3 +26,5 @@ export type PacksActionTypes =
     | ReturnType<typeof setPacksTotalCount>
     | ReturnType<typeof setPageSize>
     | ReturnType<typeof deletePack>
+    | ReturnType<typeof setIsFetching>
+    | ReturnType<typeof setError>

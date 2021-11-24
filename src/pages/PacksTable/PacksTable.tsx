@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect} from 'react';
 import s from './PacksTable.module.css'
-import {Button, Input, Layout, Slider, Table} from "antd";
+import {Button, Input, Layout, notification, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
 import {
     addPackThunk,
@@ -14,6 +14,7 @@ import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
 import ActionsColumn from "./ActionsColumn/ActionsColumn";
 import {PackType} from "../../api/packsApi/types";
+import {setError} from "../../store/recoveryPass/actions";
 
 const PacksTable = () => {
 
@@ -22,10 +23,28 @@ const PacksTable = () => {
     const page = useTypedSelector(state => state.packsTable.page)
     const packsTotalCount = useTypedSelector(state => state.packsTable.cardPacksTotalCount)
     const packsPerPage = useTypedSelector(state => state.packsTable.pageSize)
+    const isFetching = useTypedSelector(state => state.packsTable.isFetching)
+    const error = useTypedSelector(state => state.packsTable.error)
+
+    const onErrorNotification = () => {
+        notification.error({
+            message: 'Error',
+            description: error,
+            placement: 'topLeft',
+            top: 55,
+        });
+    }
 
     useEffect(() => {
         dispatch(getPacksThunk(page, packsPerPage))
     }, [page, packsPerPage])
+
+    useEffect(() => {
+        if (error) {
+            onErrorNotification()
+            dispatch(setError(''))
+        }
+    }, [error])
 
     const columns = [
         {
@@ -116,7 +135,7 @@ const PacksTable = () => {
                         columns={columns}
                         dataSource={packsData}
                         pagination={pagination}
-                        loading={false}
+                        loading={isFetching}
                         onChange={handleTableChange}
                         scroll={{y: 650}}
                     />
