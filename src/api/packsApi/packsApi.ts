@@ -1,5 +1,5 @@
 import {herokuInstance, localInstance} from "../api";
-import {AddPackResponseType, GetPacksResponseType} from "./types";
+import {AddPackResponseType, DeletePackResponseType, GetPacksResponseType} from "./types";
 
 export const packsApi = () => {
     return {
@@ -11,6 +11,9 @@ export const packsApi = () => {
         },
         addPack(packName: string) {
             return herokuInstance.post<AddPackResponseType>(`/cards/pack`, {cardsPack: {name: packName}})
+        },
+        deletePack(packId: string) {
+            return herokuInstance.delete<DeletePackResponseType>(`/cards/pack?id=${packId}`)
         }
     }
 }

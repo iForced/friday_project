@@ -1,4 +1,4 @@
-import {addPack, setPacks, setPacksTotalCount, setPage, setPageSize} from "./actions";
+import {addPack, deletePack, setPacks, setPacksTotalCount, setPage, setPageSize} from "./actions";
 import {PackType} from "../../api/packsApi/types";
 
 export type PacksInitialStateType = {
@@ -14,3 +14,4 @@ export type PacksActionTypes =
     | ReturnType<typeof addPack>
     | ReturnType<typeof setPacksTotalCount>
     | ReturnType<typeof setPageSize>
+    | ReturnType<typeof deletePack>

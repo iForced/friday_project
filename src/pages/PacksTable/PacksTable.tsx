@@ -1,12 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
-import {addPackThunk, getPacksThunk, setPage, setPageSize} from "../../store/packsTable/actions";
+import {
+    addPackThunk,
+    deletePackThunk,
+    getPacksThunk,
+    setPage,
+    setPageSize
+} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
 import ActionsColumn from "./ActionsColumn/ActionsColumn";
+import {PackType} from "../../api/packsApi/types";
 
 const PacksTable = () => {
 
@@ -26,29 +33,34 @@ const PacksTable = () => {
             dataIndex: 'name',
             sorter: true,
             width: '20%',
+            key: '1',
         },
         {
             title: 'Cards',
             dataIndex: 'cardsCount',
             sorter: true,
             width: '20%',
+            key: '2',
         },
         {
             title: 'Last updated',
             dataIndex: 'updated',
             sorter: true,
             width: '20%',
+            key: '3',
         },
         {
             title: 'Created by',
             dataIndex: 'user_name',
             sorter: true,
             width: '20%',
+            key: '4',
         },
         {
             title: 'Actions',
             width: '20%',
-            render: () => <ActionsColumn />
+            key: '5',
+            render: (_: any, record: PackType) => <ActionsColumn onDeletePack={handleDelete} packId={record._id} />
         },
     ]
 
@@ -58,14 +70,18 @@ const PacksTable = () => {
         total: packsTotalCount,
     }
 
-    const handleTableChange = (pagination: any, sorter: any) => {
+    const handleTableChange = useCallback((pagination: any, sorter: any) => {
         dispatch(setPage(pagination.current))
         dispatch(setPageSize(pagination.pageSize))
-    }
+    }, [])
     const handleAddPack = () => {
         dispatch(addPackThunk('alo'))
         dispatch(getPacksThunk(page, packsPerPage))
     }
+    const handleDelete = (packId: string) => {
+        dispatch(deletePackThunk(packId))
+        dispatch(getPacksThunk(page, packsPerPage))
+    };
 
     const minNumberOfCards = 0
     const maxNumberOfCards = 200
@@ -83,7 +99,8 @@ const PacksTable = () => {
                     </div>
                     <div>
                         <h3>Number of cards</h3>
-                        <Slider range tooltipVisible={true} tooltipPlacement={'bottom'} min={minNumberOfCards} max={maxNumberOfCards} defaultValue={[0, 200]} />
+                        <Slider range tooltipVisible={true} tooltipPlacement={'bottom'} min={minNumberOfCards}
+                                max={maxNumberOfCards} defaultValue={[0, 200]}/>
                     </div>
                 </div>
             </Sider>
@@ -91,7 +108,8 @@ const PacksTable = () => {
                 <div className={s.tableContainer}>
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
-                        <Input placeholder={'Search...'} style={{width: '50%', margin: '20px 0', padding: '10px 20px'}} />
+                        <Input placeholder={'Search...'}
+                               style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}/>
                         <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
                     </div>
                     <Table
@@ -100,6 +118,7 @@ const PacksTable = () => {
                         pagination={pagination}
                         loading={false}
                         onChange={handleTableChange}
+                        scroll={{y: 650}}
                     />
                 </div>
             </Content>

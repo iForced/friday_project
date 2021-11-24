@@ -27,6 +27,9 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
         case PacksActions.SET_PAGE_SIZE:
             return {...state, pageSize: action.pageSize}
 
+        case PacksActions.DElETE_PACK:
+            return {...state, packs: state.packs.filter(pack => pack._id !== action.packId)}
+
         default:
             return state
     }

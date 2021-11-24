@@ -14,29 +14,29 @@ const Header = () => {
 
     return (
         <Menu mode="horizontal" className={s.menuWrapper}>
-            <Menu.Item><img src={logo} alt={'react'}/></Menu.Item>
-            <Menu.Item icon={<SnippetsOutlined/>} onClick={() => navigate('/packs')}>Packs list</Menu.Item>
-            <Menu.Item icon={<UserOutlined/>}>Profile</Menu.Item>
+            <Menu.Item key='MenuItem1'><img src={logo} alt={'react'}/></Menu.Item>
+            <Menu.Item key='MenuItem2' icon={<SnippetsOutlined/>} onClick={() => navigate('/packs')}>Packs list</Menu.Item>
+            <Menu.Item key='MenuItem3' icon={<UserOutlined/>}>Profile</Menu.Item>
 
             <SubMenu key="SubMenu" icon={<SettingOutlined/>} title="Developers">
                 <Menu.ItemGroup>
-                    <Menu.Item>Игнат Закалинский</Menu.Item>
-                    <Menu.Item icon={<GithubOutlined/>}>
+                    <Menu.Item key='MenuItem4'>Игнат Закалинский</Menu.Item>
+                    <Menu.Item key='MenuItem5' icon={<GithubOutlined/>}>
                         <a href="https://github.com/iForced" target="_blank" rel="noopener noreferrer">Илья Орсич</a>
                         </Menu.Item>
-                    <Menu.Item icon={<GithubOutlined/>}>
+                    <Menu.Item key='MenuItem6' icon={<GithubOutlined/>}>
                         <a href="https://github.com/MitPalVach" target="_blank" rel="noopener noreferrer">Дмитрий Вачугов</a>
                         </Menu.Item>
-                    <Menu.Item icon={<GithubOutlined/>}>
+                    <Menu.Item key='MenuItem7' icon={<GithubOutlined/>}>
                         <a href="https://github.com/NepoGostu" target="_blank" rel="noopener noreferrer">Андрей Зуев</a>
                         </Menu.Item>
                 </Menu.ItemGroup>
             </SubMenu>
             <SubMenu key="SubMenu1" icon={<SolutionOutlined/>} title="Authorization">
                 <Menu.ItemGroup>
-                    <Menu.Item  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign in</Menu.Item>
-                    <Menu.Item icon={<SolutionOutlined/>} onClick={()=> navigate('/registration')}>Sign up</Menu.Item>
-                    <Menu.Item  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign out</Menu.Item>
+                    <Menu.Item key='MenuItem8'  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign in</Menu.Item>
+                    <Menu.Item key='MenuItem9' icon={<SolutionOutlined/>} onClick={()=> navigate('/registration')}>Sign up</Menu.Item>
+                    <Menu.Item key='MenuItem10'  icon={<SolutionOutlined/>} onClick={()=> navigate('/login')}>Sign out</Menu.Item>
                 </Menu.ItemGroup>
             </SubMenu>
         </Menu>

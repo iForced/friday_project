@@ -8,6 +8,7 @@ export enum PacksActions {
     ADD_PACK = 'PACKS/ADD_PACK',
     SET_PACKS_TOTAL_COUNT = 'PACKS/SET_PACKS_TOTAL_COUNT',
     SET_PAGE_SIZE = 'PACKS/SET_PAGE_SIZE',
+    DElETE_PACK = 'PACKS/DElETE_PACK',
 }
 
 export const setPacks = (packs: Array<PackType>) => {
@@ -26,6 +27,12 @@ export const addPack = (newPack: PackType) => {
     return {
         type: PacksActions.ADD_PACK,
         newPack,
+    } as const
+}
+export const deletePack = (packId: string) => {
+    return {
+        type: PacksActions.DElETE_PACK,
+        packId,
     } as const
 }
 export const setPacksTotalCount = (count: number) => {
@@ -54,5 +61,12 @@ export const addPackThunk = (packName: string) => (dispatch: Dispatch) => {
         .then(response => response.data)
         .then(data => {
             dispatch(addPack({...data.newCardsPack}))
+        })
+}
+export const deletePackThunk = (packId: string) => (dispatch: Dispatch) => {
+    packsApi().deletePack(packId)
+        .then(response => response.data)
+        .then(data => {
+            dispatch(deletePack(packId))
         })
 }
