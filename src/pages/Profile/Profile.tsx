@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import {AppRootStateType} from '../../store/store';
-import {Navigate} from 'react-router-dom';
+import {Navigate, NavLink} from 'react-router-dom';
 
 const Profile = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
@@ -13,6 +13,7 @@ const Profile = () => {
     return (
         <div>
             Profile
+            <NavLink to={'/login'}/>
         </div>
     );
 };

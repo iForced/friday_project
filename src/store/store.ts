@@ -5,13 +5,12 @@ import {recoveryPassReducer} from "./recoveryPass/recoveryPassReducer";
 import {loginReducer} from './loginization/loginReducer';
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
+export type RootStateType = ReturnType<typeof rootReducer>
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     registration: regReducer,
     recoveryPass: recoveryPassReducer,
     login: loginReducer,
 })
-
-export type RootStateType = ReturnType<typeof rootReducer>
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))

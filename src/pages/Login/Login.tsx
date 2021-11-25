@@ -8,6 +8,7 @@ import s from './Login.module.css';
 import {AppRootStateType} from '../../store/store';
 import {useTypedSelector} from '../../hooks/useTypedSelector';
 import {setError} from '../../store/recoveryPass/actions';
+import {RequestStatusType} from '../../store/loginization/types';
 
 
 type FormikErrorType = {
@@ -19,6 +20,7 @@ type FormikErrorType = {
 const Login = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.login.status)
     const error = useTypedSelector(state => state.recoveryPass.error)
 
     const onErrorNotification = (message: string) => {
@@ -76,6 +78,7 @@ const Login = () => {
                     gap: '40px',
                 }}
             >
+                {status === 'loading' && <span style={{color: 'blue'}}>Loading...</span>}
                 <h2>IT-Incubator</h2>
                 <form onSubmit={formik.handleSubmit} className={s.form}>
                     <Input
