@@ -38,6 +38,9 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
         case PacksActions.SET_ERROR:
             return {...state, error: action.error}
 
+        case PacksActions.UPDATE_PACK:
+            return {...state, packs: state.packs.map(pack => pack._id === action.packId ? {...pack, name: action.newPackName}: pack)}
+
         default:
             return state
     }

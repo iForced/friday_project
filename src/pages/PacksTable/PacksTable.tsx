@@ -7,7 +7,7 @@ import {
     deletePackThunk,
     getPacksThunk,
     setPage,
-    setPageSize
+    setPageSize, updatePackThunk
 } from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
@@ -79,7 +79,7 @@ const PacksTable = () => {
             title: 'Actions',
             width: '20%',
             key: '5',
-            render: (_: any, record: PackType) => <ActionsColumn onDeletePack={handleDelete} packId={record._id} />
+            render: (_: any, record: PackType) => <ActionsColumn onDeletePack={handleDeletePack} onUpdatePack={handleUpdatePack} packId={record._id} />
         },
     ]
 
@@ -97,10 +97,14 @@ const PacksTable = () => {
         dispatch(addPackThunk('alo'))
         dispatch(getPacksThunk(page, packsPerPage))
     }
-    const handleDelete = (packId: string) => {
+    const handleDeletePack = (packId: string) => {
         dispatch(deletePackThunk(packId))
         dispatch(getPacksThunk(page, packsPerPage))
     };
+    const handleUpdatePack = (packId: string, newPackName: string) => {
+        dispatch(updatePackThunk(packId, newPackName))
+        dispatch(getPacksThunk(page, packsPerPage))
+    }
 
     const minNumberOfCards = 0
     const maxNumberOfCards = 200

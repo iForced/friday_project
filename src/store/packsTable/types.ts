@@ -6,7 +6,7 @@ import {
     setPacks,
     setPacksTotalCount,
     setPage,
-    setPageSize
+    setPageSize, updatePack
 } from "./actions";
 import {PackType} from "../../api/packsApi/types";
 
@@ -28,3 +28,4 @@ export type PacksActionTypes =
     | ReturnType<typeof deletePack>
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof setError>
+    | ReturnType<typeof updatePack>
