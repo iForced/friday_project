@@ -3,8 +3,8 @@ import {AddPackResponseType, DeletePackResponseType, GetPacksResponseType} from 
 
 export const packsApi = () => {
     return {
-        getCards(pageNumber: number, pageSize: number) {
-            return localInstance.get<GetPacksResponseType>(`/cards/pack?page=${pageNumber}&pageCount=${pageSize}`)
+        getCards(pageNumber: number, pageSize: number, packName?: string) {
+            return localInstance.get<GetPacksResponseType>(`/cards/pack`, {params: {page: pageNumber, pageCount: pageSize, packName: (packName && packName)}})
         },
         setPage(newPage: number) {
             return localInstance.get<GetPacksResponseType>(`/cards/pack?page=${newPage}`)

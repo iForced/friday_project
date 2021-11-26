@@ -6,7 +6,7 @@ import {
     setPacks,
     setPacksTotalCount,
     setPage,
-    setPageSize, updatePack
+    setPageSize, setSearchPackValue, updatePack
 } from "./actions";
 import {PackType} from "../../api/packsApi/types";
 
@@ -17,6 +17,7 @@ export type PacksInitialStateType = {
     pageSize: number
     isFetching: boolean
     error: string
+    searchValue: string
 }
 
 export type PacksActionTypes =
@@ -29,3 +30,4 @@ export type PacksActionTypes =
     | ReturnType<typeof setIsFetching>
     | ReturnType<typeof setError>
     | ReturnType<typeof updatePack>
+    | ReturnType<typeof setSearchPackValue>

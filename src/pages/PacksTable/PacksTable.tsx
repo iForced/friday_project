@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, notification, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
@@ -7,7 +7,7 @@ import {
     deletePackThunk,
     getPacksThunk,
     setPage,
-    setPageSize, updatePackThunk
+    setPageSize, setSearchPackValue, updatePackThunk
 } from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
@@ -25,6 +25,7 @@ const PacksTable = () => {
     const packsPerPage = useTypedSelector(state => state.packsTable.pageSize)
     const isFetching = useTypedSelector(state => state.packsTable.isFetching)
     const error = useTypedSelector(state => state.packsTable.error)
+    const searchValue = useTypedSelector(state => state.packsTable.searchValue)
 
     const onErrorNotification = () => {
         notification.error({
@@ -36,7 +37,7 @@ const PacksTable = () => {
     }
 
     useEffect(() => {
-        dispatch(getPacksThunk(page, packsPerPage))
+        dispatch(getPacksThunk(page, packsPerPage, searchValue))
     }, [page, packsPerPage])
 
     useEffect(() => {
@@ -95,15 +96,31 @@ const PacksTable = () => {
     }, [])
     const handleAddPack = () => {
         dispatch(addPackThunk('alo'))
-        dispatch(getPacksThunk(page, packsPerPage))
+        dispatch(getPacksThunk(page, packsPerPage, searchValue))
     }
-    const handleDeletePack = (packId: string) => {
+    const handleDeletePack = useCallback((packId: string) => {
         dispatch(deletePackThunk(packId))
-        dispatch(getPacksThunk(page, packsPerPage))
-    };
-    const handleUpdatePack = (packId: string, newPackName: string) => {
+        dispatch(getPacksThunk(page, packsPerPage, searchValue))
+    }, [])
+    const handleUpdatePack = useCallback((packId: string, newPackName: string) => {
         dispatch(updatePackThunk(packId, newPackName))
-        dispatch(getPacksThunk(page, packsPerPage))
+        dispatch(getPacksThunk(page, packsPerPage, searchValue))
+    }, [])
+    const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
+        debugger
+        const searchInputValue = e.currentTarget.value
+        dispatch(setSearchPackValue(searchInputValue))
+        const debounceInterval = setTimeout(() => {
+            debugger
+            dispatch(getPacksThunk(page, packsPerPage, searchValue))
+            clearInterval(debounceInterval)
+        }, 2000)
+    }
+    const showMyPacks = () => {
+        // searchingPacks = packsData.filter(pack => pack.user_id === '618fae1fda4cff00045585fb')
+    }
+    const showAllPacks = () => {
+        // searchingPacks = packsData.filter(pack => pack.user_id === 'my id')
     }
 
     const minNumberOfCards = 0
@@ -116,8 +133,8 @@ const PacksTable = () => {
                     <div>
                         <h3>Show packs cards</h3>
                         <div className={s.showPacksButtons}>
-                            <Button>My</Button>
-                            <Button>All</Button>
+                            <Button onClick={showMyPacks}>My</Button>
+                            <Button onClick={showAllPacks}>All</Button>
                         </div>
                     </div>
                     <div>
@@ -132,7 +149,9 @@ const PacksTable = () => {
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'}
-                               style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}/>
+                               style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}
+                               onInput={handleSearchPack}
+                        />
                         <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
                     </div>
                     <Table

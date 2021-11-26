@@ -12,6 +12,7 @@ export enum PacksActions {
     SET_PACKS_TOTAL_COUNT = 'PACKS/SET_PACKS_TOTAL_COUNT',
     SET_IS_FETCHING = 'PACKS/SET_IS_FETCHING',
     SET_ERROR = 'PACKS/SET_ERROR',
+    SET_SEARCH_PACK_VALUE = 'PACKS/SET_SEARCH_PACK_TERM',
 }
 
 export const setPacks = (packs: Array<PackType>) => {
@@ -69,10 +70,16 @@ export const setError = (error: string) => {
         error,
     } as const
 }
+export const setSearchPackValue = (searchValue: string) => {
+    return {
+        type: PacksActions.SET_SEARCH_PACK_VALUE,
+        searchValue,
+    } as const
+}
 
-export const getPacksThunk = (pageNumber: number, pageSize: number) => (dispatch: Dispatch) => {
+export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    packsApi().getCards(pageNumber, pageSize)
+    packsApi().getCards(pageNumber, pageSize, packName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
