@@ -1,20 +1,18 @@
 import {PackType} from "../../api/packsApi/types";
 import {Dispatch} from "redux";
 import {packsApi} from "../../api/packsApi/packsApi";
-import {RootStateType} from "../store";
-import {ThunkDispatch} from "redux-thunk";
-import {PacksActionTypes} from "./types";
 
 export enum PacksActions {
     SET_PACKS = 'PACKS/SET_PACKS',
-    SET_PAGE = 'PACKS/SET_PAGE',
     ADD_PACK = 'PACKS/ADD_PACK',
-    UPDATE_PACK = 'PACKS/UPDATE_PACK',
-    SET_PACKS_TOTAL_COUNT = 'PACKS/SET_PACKS_TOTAL_COUNT',
-    SET_PAGE_SIZE = 'PACKS/SET_PAGE_SIZE',
     DElETE_PACK = 'PACKS/DElETE_PACK',
+    UPDATE_PACK = 'PACKS/UPDATE_PACK',
+    SET_PAGE = 'PACKS/SET_PAGE',
+    SET_PAGE_SIZE = 'PACKS/SET_PAGE_SIZE',
+    SET_PACKS_TOTAL_COUNT = 'PACKS/SET_PACKS_TOTAL_COUNT',
     SET_IS_FETCHING = 'PACKS/SET_IS_FETCHING',
     SET_ERROR = 'PACKS/SET_ERROR',
+    SET_SEARCH_PACK_VALUE = 'PACKS/SET_SEARCH_PACK_TERM',
 }
 
 export const setPacks = (packs: Array<PackType>) => {

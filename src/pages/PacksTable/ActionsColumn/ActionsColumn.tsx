@@ -2,7 +2,6 @@ import React from 'react';
 import s from './ActionsColumn.module.css'
 import {Button} from "antd";
 
-
 type PropsType = {
     onLearn: () => void
     onDeletePack: (packId: string) => void
