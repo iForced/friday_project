@@ -1,39 +1,49 @@
-import {setAppErrorAC, setAppStatusAC, setIsInitializedAC, setIsLoggedInAC} from './loginActions';
+import {fetchLogError, setIsInitialized, setIsLoggedIn, setProfile} from './loginActions';
+import {initialState} from './loginReducer';
+
+
+export type FormikErrorType = {
+    email?: string
+    password?: string
+    rememberMe?: boolean
+}
+
+export enum LoginActions {
+    SET_IS_LOGGED_IN = 'LOGIN/SET-IS-LOGGED-IN',
+    SET_IS_INITIALIZED = 'LOGIN/SET-IS-INITIALIZED',
+    SET_USER_PROFILE = 'LOGIN/SET_USER_PROFILE',
+    FETCH_LOG_ERROR = 'LOGIN/FETCH_LOG_ERROR',
+}
 
 export type LoginParamsType = {
     email: string,
     password: string,
     rememberMe: boolean,
-    captcha?: string
 }
-
-export type MeType = {
-    id: number,
+export type LoginResponseType = {
+    _id: string,
     email: string,
-    login: string
+    name: string,
+    avatar?: string,
+    publicCardPacksCount: number,
+    create: number,
+    update: number,
+    isAdmin: boolean,
+    verified: boolean,
+    rememberMe: boolean,
+    error?: string
 }
 
-export type ResponseType<D = {}> = {
-    resultCode: number
-    messages: Array<string>
-    data: D
-}
+export type InitialStateType = typeof initialState
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
-export type InitialStateType = {
-
-    status: RequestStatusType
-    error: string | null
-    isInitialized: boolean
-}
+export type SetIsLoggedInAction = ReturnType<typeof setIsLoggedIn>
+export type SetIsInitializedAction = ReturnType<typeof setIsInitialized>
+export type SetLogProfileAction = ReturnType<typeof setProfile>
+export type FetchLogErrorAction = ReturnType<typeof fetchLogError>
 
 export type ActionsType =
-    ReturnType<typeof setIsLoggedInAC>
-    | SetAppStatusActionType
-    | SetAppErrorActionType
-    | SetIsInitializedActionType
-
-export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
-export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
-export type SetIsInitializedActionType = ReturnType<typeof setIsInitializedAC>
+    SetIsLoggedInAction
+    | SetIsInitializedAction
+    | SetLogProfileAction
+    | FetchLogErrorAction
 

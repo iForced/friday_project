@@ -1,15 +1,23 @@
-import {ActionsType} from './loginTypes';
+import {ActionsType, InitialStateType, LoginActions, LoginResponseType} from './loginTypes';
 
-const initialState = {
-    isLoggedIn: false
+
+export const initialState = {
+    isLoggedIn: false,
+    isInitialized: false,
+    profile: {} as LoginResponseType,
+    error: '',
 }
-
-type InitialStateType = typeof initialState
 
 export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
+        case LoginActions.SET_IS_LOGGED_IN:
+            return {...state, isLoggedIn: action.isLoggedIn}
+        case LoginActions.SET_IS_INITIALIZED:
+            return {...state, isInitialized: action.isInitialized}
+        case LoginActions.SET_USER_PROFILE:
+            return {...state, profile: action.profile}
+        case LoginActions.FETCH_LOG_ERROR:
+            return {...state, error: action.error}
         default:
             return state
     }

@@ -1,15 +1,18 @@
 import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
-import {regReducer} from "./registration/registration_reducer";
+import {regReducer} from "./registration/regReducer";
 import {recoveryPassReducer} from "./recoveryPass/recoveryPassReducer";
 import {loginReducer} from './loginization/loginReducer';
+import {cardsReducer} from "./cards/cardsReducer";
+import {packsTableReducer} from "./packsTable/packsTableReducer";
 
-export type AppRootStateType = ReturnType<typeof rootReducer>
 
 const rootReducer = combineReducers({
     registration: regReducer,
     recoveryPass: recoveryPassReducer,
     login: loginReducer,
+    cards: cardsReducer,
+    packsTable: packsTableReducer,
 })
 
 export type RootStateType = ReturnType<typeof rootReducer>

@@ -1,40 +1,41 @@
+import {fetchRegError, sendReg, setRegIsFetching, setRegIsReg} from "./regActions";
+
+
 export type FormikErrorType = {
     email?: string
     password?: string
     password2?: string
 }
 
-
-export enum RegistrationActions {
+export enum RegEnumActions {
     SEND_REG = 'REGISTRATION/SEND_REG',
-    SET_REG_SUCCESS = 'REGISTRATION/SET_REG_SUCCESS',
+    SET_REG_IS_FETCHING = 'REGISTRATION/SET_REG_IS_FETCHING',
+    SET_REG_IS_REG = 'REGISTRATION/SET_REG_IS_REG',
     FETCH_REG_ERROR = 'REGISTRATION/FETCH_REG_ERROR',
 }
 
-export type RegBodyType = {
+export type RegParamsType = {
     email: string
     password: string
 }
-export type RegState = {
-    body: RegBodyType
-    loading: boolean
-    error: null | string
+export type RegInitialState = {
+    body: RegParamsType
+    isFetching: boolean
+    isReg: boolean
+    error?: string
 }
 
-type SetRegAction = {
-    type: RegistrationActions.SEND_REG
-    payload: RegBodyType
-}
-type SetRegSuccessAction = {
-    type: RegistrationActions.SET_REG_SUCCESS
-    payload: RegBodyType
-}
-type FetchRegErrorAction = {
-    type: RegistrationActions.FETCH_REG_ERROR
-    payload: string
-}
 
-export type RegActions = SetRegAction | SetRegSuccessAction | FetchRegErrorAction
+export type SetRegAction = ReturnType<typeof sendReg>
+export type SetRegIsFetchingAction = ReturnType<typeof setRegIsFetching>
+export type SetRegIsRegAction = ReturnType<typeof setRegIsReg>
+export type FetchRegErrorAction = ReturnType<typeof fetchRegError>
+
+export type RegActions =
+    SetRegAction
+    | SetRegIsFetchingAction
+    | SetRegIsRegAction
+    | FetchRegErrorAction
 
 
 

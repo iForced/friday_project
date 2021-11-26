@@ -1,16 +1,15 @@
-import {AxiosResponse} from 'axios';
-import {LoginParamsType, ResponseType} from '../../store/loginization/loginTypes';
-import {localInstance} from "../api";
+import {LoginParamsType, LoginResponseType} from '../../store/loginization/loginTypes';
+import {instance} from "../api";
+
 
 export const loginAPI = {
     login(data: LoginParamsType) {
-        return localInstance.post<LoginParamsType, AxiosResponse<ResponseType<{ userId: number }>>>
-        ('/auth/login', data)
+        return instance.post<LoginResponseType>('/auth/login', data)
+    },
+    me() {
+        return instance.post<LoginResponseType>('auth/me')
     },
     logout() {
-        return localInstance.delete <ResponseType<{ userId: number }>>
-        ('/auth/login')
-    }
-
+        return instance.delete<LoginResponseType>('/auth/me')
+    },
 }
-

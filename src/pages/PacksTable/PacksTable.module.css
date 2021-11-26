@@ -1,0 +1,19 @@
+.tableContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+.tableContainerHeader {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.showOptions > * {
+    margin-bottom: 50px;
+}
+.showPacksButtons {
+    display: flex;
+    justify-content: space-around;
+}
+.showPacksButtons > * {
+    padding: 5px 50px;
+}

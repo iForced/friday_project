@@ -1,13 +1,14 @@
 import {ForgotPassRequestType, CommonResponseType, SetNewPassRequestType} from "./types";
-import {herokuInstance} from "../api";
+import {instance} from "../api";
+
 
 export const recoveryPassApi = () => {
     return {
         forgot(data: ForgotPassRequestType) {
-            return herokuInstance.post<CommonResponseType>('auth/forgot', data)
+            return instance.post<CommonResponseType>('auth/forgot', data)
         },
         setNewPass(data: SetNewPassRequestType) {
-            return herokuInstance.post<CommonResponseType>('auth/set-new-password', data)
+            return instance.post<CommonResponseType>('auth/set-new-password', data)
         }
     }
 }
