@@ -1,19 +1,25 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../store/store';
-import {Navigate, NavLink} from 'react-router-dom';
+import {Navigate} from 'react-router-dom';
+import {UserData} from '../../store/profilePage/profileActions';
 
 const Profile = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.login.isLoggedIn)
+    const profilePageData = useSelector<AppRootStateType, UserData>(state => state.profile.user)
 
     if (!isLoggedIn) {
         return  <Navigate to="/login" replace />;
     }
 
+
+
     return (
         <div>
-            Profile
-            <NavLink to={'/login'}/>
+     Profile
+            <img src={profilePageData.avatar} alt=""/>
+
+
         </div>
     );
 };
