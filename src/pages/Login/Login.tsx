@@ -73,15 +73,14 @@ const Login = () => {
             >
                 <h2>IT-Incubator</h2>
                 <form onSubmit={formik.handleSubmit} className={s.form}>
-                    <span> Enter your email: <Input
+                    <Input
                         placeholder={'Email'}
                         name={'email'}
                         value={formik.values.email}
                         onChange={formik.handleChange}
                     />
                         {formik.errors.email ? <div className={s.email}>{formik.errors.email}</div> : null}
-                    </span>
-                    <span>Enter your password: <Input
+                    <Input
                         placeholder={'password'}
                         name={'password'}
                         type={'password'}
@@ -89,9 +88,12 @@ const Login = () => {
                         onChange={formik.handleChange}
                     />
                         {formik.errors.password ? <div className={s.password}>{formik.errors.password}</div> : null}
-                   </span>
                     <label>
-                        <Checkbox/>
+                        <Checkbox
+                            {...formik.getFieldProps('rememberMe')}
+                            checked={formik.values.rememberMe}
+                        />
+
                         <span> remember me</span>
                     </label>
                     <Button
@@ -101,7 +103,6 @@ const Login = () => {
                     >Login
                     </Button>
                 </form>
-
                 <p>If you have forgotten your password, you can recover it </p>
                 <p><NavLink to={'/recoverypassword'}>Recover password</NavLink></p>
             </Card>
