@@ -1,5 +1,3 @@
-import {initialState} from '../loginization/loginReducer';
-import {InitialStateType, LoginParamsActionType} from '../loginization/types';
 import { setProfileDataAC, UserData} from './profileActions';
 
 type ProfileDataActionType = ReturnType<typeof setProfileDataAC>

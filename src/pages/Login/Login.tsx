@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useFormik} from 'formik';
 import {useDispatch} from 'react-redux';
 import {fetchLogError, login} from '../../store/loginization/loginActions';
-import {Navigate, NavLink} from 'react-router-dom';
+import {Navigate, NavLink, useNavigate} from 'react-router-dom';
 import {Button, Card, Checkbox, Input, notification} from 'antd';
 import s from './Login.module.css';
 import {FormikErrorType} from "../../store/loginization/loginTypes";
@@ -13,6 +13,7 @@ const Login = () => {
     const dispatch = useDispatch()
     const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
     const error = useTypedSelector(state => state.login.error)
+    const navigate = useNavigate()
 
 
     const onErrorNotification = () => {
@@ -30,6 +31,12 @@ const Login = () => {
             dispatch(fetchLogError(error))
         }
     }, [error])
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate('/profile')
+        }
+    }, [isLoggedIn])
 
     const formik = useFormik({
         initialValues: {
@@ -56,9 +63,9 @@ const Login = () => {
         },
     })
 
-    if (isLoggedIn) {
-        return <Navigate to="/profile" replace/>;
-    }
+
+
+
 
     return (
         <div className={s.wrapper}>

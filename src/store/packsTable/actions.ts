@@ -1,6 +1,9 @@
 import {PackType} from "../../api/packsApi/types";
 import {Dispatch} from "redux";
 import {packsApi} from "../../api/packsApi/packsApi";
+import {ThunkDispatch} from "redux-thunk";
+import {PacksActionTypes} from "./types";
+import {RootStateType} from "../store";
 
 export enum PacksActions {
     SET_PACKS = 'PACKS/SET_PACKS',
@@ -70,11 +73,17 @@ export const setError = (error: string) => {
         error,
     } as const
 }
+export const setSearchPackValue = (searchValue: string) => {
+    return {
+        type: PacksActions.SET_SEARCH_PACK_VALUE,
+        searchValue,
+    } as const
+}
 
 
-export const getPacksThunk = (pageNumber: number, pageSize: number) => (dispatch: Dispatch) => {
+export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    packsApi().getCards(pageNumber, pageSize)
+    packsApi().getCards(pageNumber, pageSize, packName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))

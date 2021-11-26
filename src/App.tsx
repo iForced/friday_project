@@ -4,7 +4,6 @@ import Header from "./components/Header/Header";
 import Login from './pages/Login/Login';
 import Registration from "./pages/Registration/Registration";
 import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
-import EnterNewPassword from "./pages/EnterNewPassword/EnterNewPassword";
 import CreateNewPassword from "./pages/PasswordRecovery/CreateNewPassword/CreateNewPassword";
 import CheckEmail from "./pages/PasswordRecovery/CheckEmail/CheckEmail";
 import Profile from "./pages/Profile/Profile";
@@ -23,7 +22,6 @@ const App = () => {
                 <Route path={'/login'} element={<Login/>}/>
                 <Route path={'/registration'} element={<Registration/>}/>
                 <Route path={'/recoverypassword'} element={<PasswordRecovery/>}/>
-                <Route path={'/enterpassword'} element={<EnterNewPassword/>}/>
                 <Route path={'/createnewpassword/:token'} element={<CreateNewPassword/>}/>
                 <Route path={'/checkemail'} element={<CheckEmail/>}/>
                 <Route path={'/profile'} element={<Profile/>}/>

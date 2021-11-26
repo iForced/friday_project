@@ -15,10 +15,12 @@ import {Content} from "antd/es/layout/layout";
 import ActionsColumn from "./ActionsColumn/ActionsColumn";
 import {PackType} from "../../api/packsApi/types";
 import {setError} from "../../store/recoveryPass/actions";
+import {useNavigate} from "react-router-dom";
 
 const PacksTable = () => {
 
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const packsData = useTypedSelector(state => state.packsTable.packs)
     const page = useTypedSelector(state => state.packsTable.page)
     const packsTotalCount = useTypedSelector(state => state.packsTable.cardPacksTotalCount)
@@ -26,6 +28,7 @@ const PacksTable = () => {
     const isFetching = useTypedSelector(state => state.packsTable.isFetching)
     const error = useTypedSelector(state => state.packsTable.error)
     const searchValue = useTypedSelector(state => state.packsTable.searchValue)
+    const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
 
     const onErrorNotification = () => {
         notification.error({
@@ -37,7 +40,15 @@ const PacksTable = () => {
     }
 
     useEffect(() => {
-        dispatch(getPacksThunk(page, packsPerPage, searchValue))
+        if (!isLoggedIn) {
+            navigate('/login')
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            dispatch(getPacksThunk(page, packsPerPage, searchValue))
+        }
     }, [page, packsPerPage])
 
     useEffect(() => {
@@ -74,7 +85,7 @@ const PacksTable = () => {
         },
         {
             title: 'Actions',
-            width: '20%',
+            width: '30%',
             render: (_: any, record: PackType) => (
                 <ActionsColumn
                     packId={record._id}
@@ -107,11 +118,9 @@ const PacksTable = () => {
         dispatch(updatePackThunk(packId, newPackName))
     }, [])
     const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
-        debugger
         const searchInputValue = e.currentTarget.value
         dispatch(setSearchPackValue(searchInputValue))
         const debounceInterval = setTimeout(() => {
-            debugger
             dispatch(getPacksThunk(page, packsPerPage, searchValue))
             clearInterval(debounceInterval)
         }, 2000)
@@ -139,8 +148,14 @@ const PacksTable = () => {
                     </div>
                     <div>
                         <h3>Number of cards</h3>
-                        <Slider range tooltipVisible={true} tooltipPlacement={'bottom'} min={minNumberOfCards}
-                                max={maxNumberOfCards} defaultValue={[0, 200]}/>
+                        <Slider
+                            range
+                            tooltipVisible={true}
+                            tooltipPlacement={'bottom'}
+                            min={minNumberOfCards}
+                            max={maxNumberOfCards}
+                            defaultValue={[0, 200]}
+                        />
                     </div>
                 </div>
             </Sider>
@@ -149,7 +164,9 @@ const PacksTable = () => {
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'}
-                               style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}/>
+                               style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}
+                               onInput={handleSearchPack}
+                        />
                         <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
                     </div>
                     <Table

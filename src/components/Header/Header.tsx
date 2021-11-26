@@ -3,7 +3,7 @@ import s from './Header.module.css';
 import {Menu} from 'antd';
 import {SettingOutlined, UserOutlined, SnippetsOutlined, SolutionOutlined} from '@ant-design/icons';
 import {GithubOutlined} from '@ant-design/icons';
-import logo from './react.svg';
+import logo from '../../assets/react.svg';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {logout} from '../../store/loginization/loginActions';

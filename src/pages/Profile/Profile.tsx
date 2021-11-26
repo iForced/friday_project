@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import s from './Profile.module.css';
-import {Navigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 
 
 const Profile = React.memo(() => {
 
+    const navigate = useNavigate()
+
     const profile = useTypedSelector(state => state.login.profile)
+    const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            navigate('/login')
+        }
+    }, [isLoggedIn])
 
 
     return (
