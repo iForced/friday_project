@@ -8,7 +8,7 @@ const initialState: PacksInitialStateType = {
     pageSize: 10,
     isFetching: false,
     error: '',
-    searchValue: '',
+    searchTerm: '',
 }
 
 export const packsTableReducer = (state: PacksInitialStateType = initialState, action: PacksActionTypes): PacksInitialStateType => {
@@ -43,7 +43,7 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
             return {...state, packs: state.packs.map(pack => pack._id === action.packId ? {...pack, name: action.newPackName}: pack)}
 
         case PacksActions.SET_SEARCH_PACK_VALUE:
-            return {...state, searchValue: action.searchValue}
+            return {...state, searchTerm: action.searchValue}
 
         default:
             return state

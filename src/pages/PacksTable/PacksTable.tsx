@@ -27,17 +27,8 @@ const PacksTable = () => {
     const packsPerPage = useTypedSelector(state => state.packsTable.pageSize)
     const isFetching = useTypedSelector(state => state.packsTable.isFetching)
     const error = useTypedSelector(state => state.packsTable.error)
-    const searchValue = useTypedSelector(state => state.packsTable.searchValue)
+    const searchTerm = useTypedSelector(state => state.packsTable.searchTerm)
     const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
-
-    const onErrorNotification = () => {
-        notification.error({
-            message: 'Error',
-            description: error,
-            placement: 'topLeft',
-            top: 55,
-        });
-    }
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -47,16 +38,34 @@ const PacksTable = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksThunk(page, packsPerPage, searchValue))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
         }
     }, [page, packsPerPage])
 
+    const onErrorNotification = () => {
+        notification.error({
+            message: 'Error',
+            description: error,
+            placement: 'topLeft',
+            top: 55,
+        });
+    }
     useEffect(() => {
         if (error) {
             onErrorNotification()
             dispatch(setError(''))
         }
     }, [error])
+
+    useEffect(() => {
+        const debounceTimeout = setTimeout(() => {
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+        }, 2000)
+
+        return () => {
+            clearTimeout(debounceTimeout)
+        }
+    }, [searchTerm])
 
     const columns = [
         {
@@ -117,13 +126,10 @@ const PacksTable = () => {
     const handleUpdatePack = useCallback((packId: string, newPackName: string) => {
         dispatch(updatePackThunk(packId, newPackName))
     }, [])
+
     const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
         const searchInputValue = e.currentTarget.value
         dispatch(setSearchPackValue(searchInputValue))
-        const debounceInterval = setTimeout(() => {
-            dispatch(getPacksThunk(page, packsPerPage, searchValue))
-            clearInterval(debounceInterval)
-        }, 2000)
     }
     const showMyPacks = () => {
         // searchingPacks = packsData.filter(pack => pack.user_id === '618fae1fda4cff00045585fb')
@@ -166,6 +172,7 @@ const PacksTable = () => {
                         <Input placeholder={'Search...'}
                                style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}
                                onInput={handleSearchPack}
+                               value={searchTerm}
                         />
                         <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
                     </div>

@@ -17,7 +17,7 @@ export type PacksInitialStateType = {
     pageSize: number
     isFetching: boolean
     error: string
-    searchValue: string
+    searchTerm: string
 }
 
 export type PacksActionTypes =
