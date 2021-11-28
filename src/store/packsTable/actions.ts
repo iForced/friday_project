@@ -83,7 +83,7 @@ export const setSearchPackValue = (searchValue: string) => {
 
 export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    packsApi().getCards(pageNumber, pageSize, packName)
+    packsApi().getPacks(pageNumber, pageSize, packName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
@@ -117,7 +117,7 @@ export const deletePackThunk = (packId: string) => (dispatch: ThunkDispatch<Root
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
-            dispatch(deletePack(packId))
+            dispatch(deletePack(data.deletedCardsPack._id))
             dispatch(getPacksThunk(page, packsPerPage))
         })
         .catch(err => {

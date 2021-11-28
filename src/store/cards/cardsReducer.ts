@@ -1,55 +1,50 @@
 import {CardActions, CardsEnumActions, CardType, InitialCardsStateType} from "./cardsTypes";
 
-
-export const initialCardsState = {
+const initialState: InitialCardsStateType = {
     cards: [] as CardType[],
-    cardsPack_id: '',
-    question: '??????????',
-    answer: '!!!!!!!!!!!',
-    grade: 0,
+    cardsTotalCount: 0,
+    maxGrade: 0,
+    minGrade: 0,
     page: 1,
     pageCount: 4,
-    cardsTotalCount: 0,
-    _id: '',
+    packUserId: '',
     isFetching: false,
-    error: ''
+    error: '',
+    searchTerm: '',
 }
 
-export const cardsReducer = (state = initialCardsState, action: CardActions): InitialCardsStateType => {
+export const cardsReducer = (state: InitialCardsStateType = initialState, action: CardActions): InitialCardsStateType => {
     switch (action.type) {
+
         case CardsEnumActions.FETCH_CARDS:
-            return {
-                ...state,
-                cards: action.cards,
-                cardsPack_id: action.cardsPack_id,
-                page: action.page,
-                pageCount: action.pageCount,
-                cardsTotalCount: action.cardsTotalCount,
-                _id: action._id,
-            }
+            return {...state, cards: action.cards}
+
         case CardsEnumActions.SET_CARD:
-            return {
-                ...state,
-                cardsPack_id: action.cardsPack_id,
-                question: action.question,
-                answer: action.answer,
-                grade: action.grade,
-            }
+            return {...state, cards: [...state.cards, action.newCard]}
+
         case CardsEnumActions.DELETE_CARD:
-            return {...state, cards: state.cards.filter(delCard => delCard._id !== action._id)}
+            return {...state, cards: state.cards.filter(card => card._id !== action.cardId)}
+
         case CardsEnumActions.UPDATE_CARD:
-            return {
-                ...state,
-                question: action.question,
-                _id: action._id,
-            }
+            return {...state, cards: state.cards.map(card => card._id === action.cardId ? {...card, question: action.newQuestion} : card)}
+
         case CardsEnumActions.SET_CARD_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
+
         case CardsEnumActions.FETCH_CARD_ERROR:
             return {...state, error: action.error}
+
+        case CardsEnumActions.SET_SEARCH_CARD_VALUE:
+            return {...state, searchTerm: action.searchValue}
+
+        case CardsEnumActions.SET_CARDS_TOTAL_COUNT:
+            return {...state, cardsTotalCount: action.count}
+
+        case CardsEnumActions.SET_PAGE:
+            return {...state, page: action.pageNumber}
+
         default:
             return state
     }
 }
-
 

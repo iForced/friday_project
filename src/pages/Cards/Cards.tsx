@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {ChangeEvent, useCallback, useEffect} from 'react';
 import s from './Cards.module.css';
 import {Button, Layout, notification, Rate, Table} from "antd";
 import {Input} from 'antd';
@@ -7,12 +7,13 @@ import {useDispatch} from "react-redux";
 import {
     fetchCardError,
     fetchCardsPayload, removeCardPayload,
-    setCardPayload
+    setCardPayload, setPage, setSearchCardValue, updateCardPayload
 } from "../../store/cards/cardsActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useParams} from "react-router-dom";
 import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
 import {CardType} from "../../store/cards/cardsTypes";
+import {getPacksThunk, setSearchPackValue} from "../../store/packsTable/actions";
 
 
 const Cards = React.memo(() => {
@@ -20,13 +21,15 @@ const Cards = React.memo(() => {
         const {cardsPack_id} = useParams()
         const {_id} = useParams()
         const cards = useTypedSelector(state => state.cards.cards)
-        const question = useTypedSelector(state => state.cards.question)
-        const answer = useTypedSelector(state => state.cards.answer)
-        const grade = useTypedSelector(state => state.cards.grade)
+        // const question = useTypedSelector(state => state.cards.question)
+        // const answer = useTypedSelector(state => state.cards.answer)
+        // const grade = useTypedSelector(state => state.cards.grade)
         const page = useTypedSelector(state => state.cards.page)
         const pageCount = useTypedSelector(state => state.cards.pageCount)
         const cardsTotalCount = useTypedSelector(state => state.cards.cardsTotalCount)
         const error = useTypedSelector(state => state.cards.error)
+        const searchTerm = useTypedSelector(state => state.cards.searchTerm)
+        const isFetching = useTypedSelector(state => state.cards.isFetching)
 
 
         const columns = [
@@ -40,7 +43,7 @@ const Cards = React.memo(() => {
             {
                 title: 'Actions', width: '18%',
                 render: (_: any, record: CardType) => {
-                    return <ActionsCardColumn _id={record._id} onDeleteCard={toDeleteCard}/>
+                    return <ActionsCardColumn _id={record._id} onDeleteCard={toDeleteCard} onEditCard={toEditCard}/>
                 }
             },
         ]
@@ -55,8 +58,8 @@ const Cards = React.memo(() => {
         }
 
         useEffect(() => {
-            dispatch(fetchCardsPayload(cardsPack_id!, question, answer, _id!, grade, page, pageCount, cardsTotalCount))
-        }, [cardsPack_id, question])
+            dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm))
+        }, [cardsPack_id, page])
 
         useEffect(() => {
             if (error) {
@@ -65,21 +68,38 @@ const Cards = React.memo(() => {
             }
         }, [error])
 
+        useEffect(() => {
+            const debounceTimeout = setTimeout(() => {
+                dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm))
+            }, 2000)
+
+            return () => {
+                clearTimeout(debounceTimeout)
+            }
+        }, [searchTerm])
+
         const pagination = {
             current: page,
             pageSize: pageCount,
             total: cardsTotalCount,
         }
 
-        const handleTableChange = useCallback((pagination: any) => {
-            dispatch(fetchCardsPayload(cardsPack_id!, question, answer, _id!, grade, pagination.current, pagination.pageSize, pagination.total))
-        }, [])
-        const addCard = useCallback(() => {
-            dispatch(setCardPayload(cardsPack_id!, question, answer, grade))
-        }, [])
-        const toDeleteCard = (_id: string) => {
-            dispatch(removeCardPayload(_id, cardsPack_id!))
+        const handleTableChange = (pagination: any) => {
+            dispatch(setPage(pagination.current))
         }
+        const addCard = () => {
+            dispatch(setCardPayload(cardsPack_id!, 'kavo?', 'wo', 4))
+        }
+        const toDeleteCard = useCallback((cardId: string) => {
+            dispatch(removeCardPayload(cardId, cardsPack_id!))
+        }, [])
+        const handleSearchCard = (e: ChangeEvent<HTMLInputElement>) => {
+            const searchInputValue = e.currentTarget.value
+            dispatch(setSearchCardValue(searchInputValue))
+        }
+        const toEditCard = useCallback((cardId: string) => {
+            dispatch(updateCardPayload(cardsPack_id!, cardId, 'new question'))
+        }, [])
 
         return (
             <Layout style={{height: '100vh'}}>
@@ -88,14 +108,17 @@ const Cards = React.memo(() => {
                         <h2>Cards page</h2>
                         <div className={s.cardsContainerHeader}>
                             <Input placeholder={'Search...'}
-                                   style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}/>
+                                   style={{width: '50%', margin: '20px 0', padding: '10px 20px'}}
+                                   onInput={handleSearchCard}
+                                   value={searchTerm}
+                            />
                             <Button type={'primary'} shape={'round'} onClick={addCard}>Add new card</Button>
                         </div>
                         <Table
                             columns={columns}
                             dataSource={cards}
                             pagination={pagination}
-                            loading={false}
+                            loading={isFetching}
                             onChange={handleTableChange}
                             scroll={{y: 650}}
                         />
