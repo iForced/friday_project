@@ -7,23 +7,18 @@ import {useDispatch} from "react-redux";
 import {
     fetchCardError,
     fetchCardsPayload, removeCardPayload,
-    setCardPayload, setPage, setSearchCardValue, updateCardPayload
+    setCardPayload, setGradeCardPayload, setPage, setSearchCardValue, updateCardPayload
 } from "../../store/cards/cardsActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useParams} from "react-router-dom";
 import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
 import {CardType} from "../../store/cards/cardsTypes";
-import {getPacksThunk, setSearchPackValue} from "../../store/packsTable/actions";
 
 
 const Cards = React.memo(() => {
         const dispatch = useDispatch()
         const {cardsPack_id} = useParams()
-        const {_id} = useParams()
         const cards = useTypedSelector(state => state.cards.cards)
-        // const question = useTypedSelector(state => state.cards.question)
-        // const answer = useTypedSelector(state => state.cards.answer)
-        // const grade = useTypedSelector(state => state.cards.grade)
         const page = useTypedSelector(state => state.cards.page)
         const pageCount = useTypedSelector(state => state.cards.pageCount)
         const cardsTotalCount = useTypedSelector(state => state.cards.cardsTotalCount)
@@ -38,7 +33,7 @@ const Cards = React.memo(() => {
             {title: 'Last updated', dataIndex: 'updated', width: '13%'},
             {
                 title: 'Grade', dataIndex: 'grade', sorter: true, width: '13%',
-                render: () => (<Rate allowHalf defaultValue={2.5}/>)
+                render: (_: any, record: CardType) => (<Rate allowHalf value={record.grade} onChange={(value) => toGradeCard(record._id, value)}/>)
             },
             {
                 title: 'Actions', width: '18%',
@@ -100,6 +95,9 @@ const Cards = React.memo(() => {
         const toEditCard = useCallback((cardId: string) => {
             dispatch(updateCardPayload(cardsPack_id!, cardId, 'new question'))
         }, [])
+        const toGradeCard = (cardId: string, grade: number) => {
+            dispatch(setGradeCardPayload(cardsPack_id!, cardId, grade))
+        }
 
         return (
             <Layout style={{height: '100vh'}}>

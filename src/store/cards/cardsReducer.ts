@@ -43,6 +43,9 @@ export const cardsReducer = (state: InitialCardsStateType = initialState, action
         case CardsEnumActions.SET_PAGE:
             return {...state, page: action.pageNumber}
 
+        case CardsEnumActions.SET_GRADE:
+            return {...state, cards: state.cards.map(card => card._id === action.cardId ? {...card, grade: action.grade} : card)}
+
         default:
             return state
     }

@@ -1,5 +1,4 @@
 import {instance} from "../api";
-import {AxiosResponse} from "axios";
 
 
 export const cardsApi = {
@@ -15,5 +14,8 @@ export const cardsApi = {
     async putCard(_id: string, question?: string) {
         return await instance.put(`cards/card`, {card: {_id, question}})
     },
+    async gradeCard(card_id: string, grade: number) {
+        return await instance.put(`cards/grade`, {card_id, grade})
+    }
 }
 

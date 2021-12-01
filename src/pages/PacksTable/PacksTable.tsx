@@ -83,13 +83,11 @@ const PacksTable = () => {
         {
             title: 'Last updated',
             dataIndex: 'updated',
-            sorter: true,
             width: '20%',
         },
         {
             title: 'Created by',
             dataIndex: 'user_name',
-            sorter: true,
             width: '20%',
         },
         {

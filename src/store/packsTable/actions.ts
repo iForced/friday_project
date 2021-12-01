@@ -96,14 +96,14 @@ export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: s
         })
 }
 export const addPackThunk = (packName: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().addPack(packName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
             dispatch(addPack({...data.newCardsPack}))
-            dispatch(getPacksThunk(page, packsPerPage))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
         })
         .catch(err => {
             dispatch(setIsFetching(false))
@@ -111,14 +111,14 @@ export const addPackThunk = (packName: string) => (dispatch: ThunkDispatch<RootS
         })
 }
 export const deletePackThunk = (packId: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().deletePack(packId)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
             dispatch(deletePack(data.deletedCardsPack._id))
-            dispatch(getPacksThunk(page, packsPerPage))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
         })
         .catch(err => {
             dispatch(setIsFetching(false))
@@ -126,14 +126,14 @@ export const deletePackThunk = (packId: string) => (dispatch: ThunkDispatch<Root
         })
 }
 export const updatePackThunk = (packId: string, newPackName: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().updatePack(packId, newPackName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
             dispatch(updatePack(packId, newPackName))
-            dispatch(getPacksThunk(page, packsPerPage))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
         })
         .catch(err => {
             dispatch(setIsFetching(false))

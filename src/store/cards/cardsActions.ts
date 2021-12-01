@@ -59,6 +59,13 @@ export const setPage = (pageNumber: number) => {
         pageNumber,
     } as const
 }
+export const setGrade = (cardId: string, grade: number) => {
+    return {
+        type: CardsEnumActions.SET_GRADE,
+        cardId,
+        grade,
+    } as const
+}
 
 export const fetchCardsPayload = (cardsPack_id: string, pageNumber: number, pageSize: number, question?: string) => async (dispatch: Dispatch) => {
     dispatch(setCardIsFetching(true))
@@ -74,7 +81,6 @@ export const fetchCardsPayload = (cardsPack_id: string, pageNumber: number, page
 }
 export const setCardPayload = (cardsPack_id: string, question: string, answer: string, grade: number) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
     const {page, pageCount, searchTerm} = getState().cards
-    debugger
     dispatch(setCardIsFetching(true))
     try {
         const res = await cardsApi.postCard(cardsPack_id, question, answer, grade)
@@ -103,8 +109,21 @@ export const updateCardPayload = (cardsPack_id: string, _id: string, question: s
     const {page, pageCount, searchTerm} = getState().cards
     dispatch(setCardIsFetching(true))
     try {
-        const res = await cardsApi.putCard(_id, question)
+        await cardsApi.putCard(_id, question)
         dispatch(updateCard(_id, question))
+        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message)
+        dispatch(fetchCardError(error))
+    }
+    dispatch(setCardIsFetching(false))
+}
+export const setGradeCardPayload = (cardsPack_id: string, cardId: string, grade: number) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
+    const {page, pageCount, searchTerm} = getState().cards
+    dispatch(setCardIsFetching(true))
+    try {
+        await cardsApi.gradeCard(cardId, grade)
+        dispatch(setGrade(cardId, grade))
         await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message)
