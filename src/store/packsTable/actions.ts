@@ -16,6 +16,7 @@ export enum PacksActions {
     SET_IS_FETCHING = 'PACKS/SET_IS_FETCHING',
     SET_ERROR = 'PACKS/SET_ERROR',
     SET_SEARCH_PACK_VALUE = 'PACKS/SET_SEARCH_PACK_TERM',
+    SET_SORT_PACK_VALUE = 'PACKS/SET_SORT_PACK_VALUE',
 }
 
 export const setPacks = (packs: Array<PackType>) => {
@@ -79,11 +80,17 @@ export const setSearchPackValue = (searchValue: string) => {
         searchValue,
     } as const
 }
+export const setSortPacksValue = (sort: string) => {
+    return {
+        type: PacksActions.SET_SORT_PACK_VALUE,
+        sort,
+    } as const
+}
 
 
-export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string) => (dispatch: Dispatch) => {
+export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string, sort?: string) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
-    packsApi().getPacks(pageNumber, pageSize, packName)
+    packsApi().getPacks(pageNumber, pageSize, packName, sort)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
@@ -96,14 +103,14 @@ export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: s
         })
 }
 export const addPackThunk = (packName: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm, sort} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().addPack(packName)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
             dispatch(addPack({...data.newCardsPack}))
-            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         })
         .catch(err => {
             dispatch(setIsFetching(false))
@@ -111,14 +118,14 @@ export const addPackThunk = (packName: string) => (dispatch: ThunkDispatch<RootS
         })
 }
 export const deletePackThunk = (packId: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm, sort} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().deletePack(packId)
         .then(response => response.data)
         .then(data => {
             dispatch(setIsFetching(false))
             dispatch(deletePack(data.deletedCardsPack._id))
-            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         })
         .catch(err => {
             dispatch(setIsFetching(false))
@@ -126,14 +133,14 @@ export const deletePackThunk = (packId: string) => (dispatch: ThunkDispatch<Root
         })
 }
 export const updatePackThunk = (packId: string, newPackName: string) => (dispatch: ThunkDispatch<RootStateType, unknown, PacksActionTypes>, getState: () => RootStateType) => {
-    const {page, pageSize: packsPerPage, searchTerm} = getState().packsTable
+    const {page, pageSize: packsPerPage, searchTerm, sort} = getState().packsTable
     dispatch(setIsFetching(true))
     packsApi().updatePack(packId, newPackName)
         .then(response => response.data)
-        .then(data => {
+        .then(() => {
             dispatch(setIsFetching(false))
             dispatch(updatePack(packId, newPackName))
-            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         })
         .catch(err => {
             dispatch(setIsFetching(false))

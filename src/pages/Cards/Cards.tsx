@@ -119,6 +119,7 @@ const Cards = React.memo(() => {
                             loading={isFetching}
                             onChange={handleTableChange}
                             scroll={{y: 650}}
+                            rowKey={(row) => row._id}
                         />
                     </div>
                 </Content>

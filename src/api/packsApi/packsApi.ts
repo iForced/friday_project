@@ -4,8 +4,10 @@ import {instance} from "../api";
 
 export const packsApi = () => {
     return {
-        getPacks(pageNumber: number, pageSize: number, packName?: string) {
-            return instance.get<GetPacksResponseType>(`/cards/pack`, {params: {page: pageNumber, pageCount: pageSize, packName: (packName && packName)}})
+        getPacks(pageNumber: number, pageSize: number, packName?: string, sort?: string) {
+            return instance.get<GetPacksResponseType>(`/cards/pack`, {
+                params: {page: pageNumber, pageCount: pageSize, packName: (packName && packName), sortPacks: sort}
+            })
         },
         setPage(newPage: number) {
             return instance.get<GetPacksResponseType>(`/cards/pack?page=${newPage}`)

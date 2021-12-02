@@ -7,7 +7,7 @@ import {
     deletePackThunk,
     getPacksThunk,
     setPage,
-    setPageSize, setSearchPackValue, updatePackThunk
+    setPageSize, setSearchPackValue, setSortPacksValue, updatePackThunk
 } from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
@@ -16,6 +16,7 @@ import ActionsColumn from "./ActionsColumn/ActionsColumn";
 import {PackType} from "../../api/packsApi/types";
 import {setError} from "../../store/recoveryPass/actions";
 import {useNavigate} from "react-router-dom";
+import {TablePaginationConfig} from "antd/lib/table/interface";
 
 const PacksTable = () => {
 
@@ -29,6 +30,7 @@ const PacksTable = () => {
     const error = useTypedSelector(state => state.packsTable.error)
     const searchTerm = useTypedSelector(state => state.packsTable.searchTerm)
     const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
+    const sort = useTypedSelector(state => state.packsTable.sort)
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -38,9 +40,9 @@ const PacksTable = () => {
 
     useEffect(() => {
         if (isLoggedIn) {
-            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         }
-    }, [page, packsPerPage])
+    }, [page, packsPerPage, sort])
 
     const onErrorNotification = () => {
         notification.error({
@@ -59,7 +61,7 @@ const PacksTable = () => {
 
     useEffect(() => {
         const debounceTimeout = setTimeout(() => {
-            dispatch(getPacksThunk(page, packsPerPage, searchTerm))
+            dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         }, 2000)
 
         return () => {
@@ -71,18 +73,17 @@ const PacksTable = () => {
         {
             title: 'Name',
             dataIndex: 'name',
-            sorter: true,
             width: '20%',
         },
         {
             title: 'Cards',
             dataIndex: 'cardsCount',
-            sorter: true,
             width: '20%',
         },
         {
             title: 'Last updated',
             dataIndex: 'updated',
+            sorter: true,
             width: '20%',
         },
         {
@@ -98,7 +99,7 @@ const PacksTable = () => {
                     packId={record._id}
                     onDeletePack={handleDeletePack}
                     onUpdatePack={handleUpdatePack}
-                    onLearn={() => {
+                    showCards={() => {
                         navigate(`/packs/${record._id}/cards`)
                     }}
                 />)
@@ -111,9 +112,14 @@ const PacksTable = () => {
         total: packsTotalCount,
     }
 
-    const handleTableChange = useCallback((pagination: any, sorter: any) => {
-        dispatch(setPage(pagination.current))
-        dispatch(setPageSize(pagination.pageSize))
+    const handleTableChange = useCallback((pagination: TablePaginationConfig, filter: any, sorter: any) => {
+        dispatch(setPage(pagination.current!))
+        dispatch(setPageSize(pagination.pageSize!))
+        if (sorter.order === 'ascend') {
+            dispatch(setSortPacksValue('0updated'))
+        } else if (sorter.order === 'descend') {
+            dispatch(setSortPacksValue('1updated'))
+        }
     }, [])
     const handleAddPack = () => {
         dispatch(addPackThunk('alo'))
@@ -128,6 +134,12 @@ const PacksTable = () => {
     const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
         const searchInputValue = e.currentTarget.value
         dispatch(setSearchPackValue(searchInputValue))
+    }
+    const handleSortPacks = () => {
+        dispatch(setSortPacksValue('0updated'))
+    }
+    const handleSortPacks1 = () => {
+        dispatch(setSortPacksValue('1updated'))
     }
     const showMyPacks = () => {
         // searchingPacks = packsData.filter(pack => pack.user_id === '618fae1fda4cff00045585fb')
@@ -148,6 +160,8 @@ const PacksTable = () => {
                         <div className={s.showPacksButtons}>
                             <Button onClick={showMyPacks}>My</Button>
                             <Button onClick={showAllPacks}>All</Button>
+                            <Button onClick={handleSortPacks}>sort0</Button>
+                            <Button onClick={handleSortPacks1}>sort1</Button>
                         </div>
                     </div>
                     <div>
@@ -181,6 +195,7 @@ const PacksTable = () => {
                         loading={isFetching}
                         onChange={handleTableChange}
                         scroll={{y: 650}}
+                        rowKey={(row) => row._id}
                     />
                 </div>
             </Content>

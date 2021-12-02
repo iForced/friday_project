@@ -9,6 +9,7 @@ const initialState: PacksInitialStateType = {
     isFetching: false,
     error: '',
     searchTerm: '',
+    sort: '',
 }
 
 export const packsTableReducer = (state: PacksInitialStateType = initialState, action: PacksActionTypes): PacksInitialStateType => {
@@ -44,6 +45,9 @@ export const packsTableReducer = (state: PacksInitialStateType = initialState, a
 
         case PacksActions.SET_SEARCH_PACK_VALUE:
             return {...state, searchTerm: action.searchValue}
+
+        case PacksActions.SET_SORT_PACK_VALUE:
+            return {...state, sort: action.sort}
 
         default:
             return state
