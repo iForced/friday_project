@@ -66,11 +66,17 @@ export const setGrade = (cardId: string, grade: number) => {
         grade,
     } as const
 }
+export const setSortCardsValue = (sort: string) => {
+    return {
+        type: CardsEnumActions.SET_SORT_CARDS_VALUE,
+        sort,
+    } as const
+}
 
-export const fetchCardsPayload = (cardsPack_id: string, pageNumber: number, pageSize: number, question?: string) => async (dispatch: Dispatch) => {
+export const fetchCardsPayload = (cardsPack_id: string, pageNumber: number, pageSize: number, question?: string, sort?: string) => async (dispatch: Dispatch) => {
     dispatch(setCardIsFetching(true))
     try {
-        const res = await cardsApi.getCards(cardsPack_id, pageNumber, pageSize, question)
+        const res = await cardsApi.getCards(cardsPack_id, pageNumber, pageSize, question, sort)
         dispatch(setCardsTotalCount(res.data.cardsTotalCount))
         dispatch(fetchCards(res.data.cards))
     } catch (e: any) {
@@ -80,12 +86,12 @@ export const fetchCardsPayload = (cardsPack_id: string, pageNumber: number, page
     dispatch(setCardIsFetching(false))
 }
 export const setCardPayload = (cardsPack_id: string, question: string, answer: string, grade: number) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
-    const {page, pageCount, searchTerm} = getState().cards
+    const {page, pageCount, searchTerm, sort} = getState().cards
     dispatch(setCardIsFetching(true))
     try {
         const res = await cardsApi.postCard(cardsPack_id, question, answer, grade)
         dispatch(setCard(res.data.newCard))
-        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
+        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm, sort))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message)
         dispatch(fetchCardError(error))
@@ -93,12 +99,12 @@ export const setCardPayload = (cardsPack_id: string, question: string, answer: s
     dispatch(setCardIsFetching(false))
 }
 export const removeCardPayload = (_id: string, cardsPack_id: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
-    const {page, pageCount, searchTerm} = getState().cards
+    const {page, pageCount, searchTerm, sort} = getState().cards
     dispatch(setCardIsFetching(true))
     try {
         await cardsApi.deleteCard(_id)
         dispatch(removeCard(_id))
-        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
+        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm, sort))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message)
         dispatch(fetchCardError(error))
@@ -106,12 +112,12 @@ export const removeCardPayload = (_id: string, cardsPack_id: string) => async (d
     dispatch(setCardIsFetching(false))
 }
 export const updateCardPayload = (cardsPack_id: string, _id: string, question: string) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
-    const {page, pageCount, searchTerm} = getState().cards
+    const {page, pageCount, searchTerm, sort} = getState().cards
     dispatch(setCardIsFetching(true))
     try {
         await cardsApi.putCard(_id, question)
         dispatch(updateCard(_id, question))
-        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
+        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm, sort))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message)
         dispatch(fetchCardError(error))
@@ -119,12 +125,12 @@ export const updateCardPayload = (cardsPack_id: string, _id: string, question: s
     dispatch(setCardIsFetching(false))
 }
 export const setGradeCardPayload = (cardsPack_id: string, cardId: string, grade: number) => async (dispatch: ThunkDispatch<RootStateType, unknown, CardActions>, getState: () => RootStateType) => {
-    const {page, pageCount, searchTerm} = getState().cards
+    const {page, pageCount, searchTerm, sort} = getState().cards
     dispatch(setCardIsFetching(true))
     try {
         await cardsApi.gradeCard(cardId, grade)
         dispatch(setGrade(cardId, grade))
-        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm))
+        await dispatch(fetchCardsPayload(cardsPack_id, page, pageCount, searchTerm, sort))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message)
         dispatch(fetchCardError(error))

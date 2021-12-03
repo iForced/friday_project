@@ -3,7 +3,7 @@ import {
     fetchCards,
     removeCard,
     setCard,
-    setCardIsFetching, setCardsTotalCount, setGrade, setPage, setSearchCardValue,
+    setCardIsFetching, setCardsTotalCount, setGrade, setPage, setSearchCardValue, setSortCardsValue,
     updateCard
 } from "./cardsActions";
 
@@ -19,6 +19,7 @@ export enum CardsEnumActions {
     SET_CARDS_TOTAL_COUNT = 'CARDS/SET_CARDS_TOTAL_COUNT',
     SET_PAGE = 'CARDS/SET_PAGE',
     SET_GRADE = 'CARDS/SET_GRADE',
+    SET_SORT_CARDS_VALUE = 'CARDS/SET_SORT_CARDS_VALUE',
 }
 
 export type InitialCardsStateType = {
@@ -32,6 +33,7 @@ export type InitialCardsStateType = {
     isFetching: boolean
     error: string
     searchTerm: string
+    sort: string
 }
 
 export type CardType = {
@@ -56,6 +58,7 @@ export type SetSearchCardValueAction = ReturnType<typeof setSearchCardValue>
 export type SetCardsTotalCountAction = ReturnType<typeof setCardsTotalCount>
 export type SetPageAction = ReturnType<typeof setPage>
 export type SetGradeAction = ReturnType<typeof setGrade>
+export type SetSortCardsAction = ReturnType<typeof setSortCardsValue>
 
 export type CardActions =
     FetchCardsAction
@@ -68,5 +71,6 @@ export type CardActions =
     | SetCardsTotalCountAction
     | SetPageAction
     | SetGradeAction
+    | SetSortCardsAction
 
 

@@ -11,6 +11,7 @@ const initialState: InitialCardsStateType = {
     isFetching: false,
     error: '',
     searchTerm: '',
+    sort: '',
 }
 
 export const cardsReducer = (state: InitialCardsStateType = initialState, action: CardActions): InitialCardsStateType => {
@@ -45,6 +46,9 @@ export const cardsReducer = (state: InitialCardsStateType = initialState, action
 
         case CardsEnumActions.SET_GRADE:
             return {...state, cards: state.cards.map(card => card._id === action.cardId ? {...card, grade: action.grade} : card)}
+
+        case CardsEnumActions.SET_SORT_CARDS_VALUE:
+            return {...state, sort: action.sort}
 
         default:
             return state

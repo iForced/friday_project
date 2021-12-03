@@ -7,12 +7,13 @@ import {useDispatch} from "react-redux";
 import {
     fetchCardError,
     fetchCardsPayload, removeCardPayload,
-    setCardPayload, setGradeCardPayload, setPage, setSearchCardValue, updateCardPayload
+    setCardPayload, setGradeCardPayload, setPage, setSearchCardValue, setSortCardsValue, updateCardPayload
 } from "../../store/cards/cardsActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useParams} from "react-router-dom";
 import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
 import {CardType} from "../../store/cards/cardsTypes";
+import {TablePaginationConfig} from "antd/lib/table/interface";
 
 
 const Cards = React.memo(() => {
@@ -25,6 +26,7 @@ const Cards = React.memo(() => {
         const error = useTypedSelector(state => state.cards.error)
         const searchTerm = useTypedSelector(state => state.cards.searchTerm)
         const isFetching = useTypedSelector(state => state.cards.isFetching)
+        const sort = useTypedSelector(state => state.cards.sort)
 
 
         const columns = [
@@ -53,8 +55,8 @@ const Cards = React.memo(() => {
         }
 
         useEffect(() => {
-            dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm))
-        }, [cardsPack_id, page])
+            dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm, sort))
+        }, [cardsPack_id, page, sort])
 
         useEffect(() => {
             if (error) {
@@ -65,7 +67,7 @@ const Cards = React.memo(() => {
 
         useEffect(() => {
             const debounceTimeout = setTimeout(() => {
-                dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm))
+                dispatch(fetchCardsPayload(cardsPack_id!, page, pageCount, searchTerm, sort))
             }, 2000)
 
             return () => {
@@ -79,8 +81,13 @@ const Cards = React.memo(() => {
             total: cardsTotalCount,
         }
 
-        const handleTableChange = (pagination: any) => {
-            dispatch(setPage(pagination.current))
+        const handleTableChange = (pagination: TablePaginationConfig, filter: any, sorter: any) => {
+            dispatch(setPage(pagination.current!))
+            if (sorter.order === 'ascend') {
+                dispatch(setSortCardsValue('0grade'))
+            } else if (sorter.order === 'descend') {
+                dispatch(setSortCardsValue('1grade'))
+            }
         }
         const addCard = () => {
             dispatch(setCardPayload(cardsPack_id!, 'kavo?', 'wo', 4))
