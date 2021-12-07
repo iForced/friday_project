@@ -36,3 +36,8 @@ export type DeletePackResponseType = {
     token: string
     tokenDeathTime: number
 }
+export type UpdatePackResponseType = {
+    updatedCardsPack: PackType
+    token: string
+    tokenDeathTime: number
+}

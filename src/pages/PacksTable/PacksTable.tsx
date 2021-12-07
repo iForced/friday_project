@@ -1,9 +1,8 @@
-import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, notification, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
 import {
-    addPackThunk,
     deletePackThunk,
     getPacksThunk,
     setPage,
@@ -17,6 +16,8 @@ import {PackType} from "../../api/packsApi/types";
 import {setError} from "../../store/recoveryPass/actions";
 import {useNavigate} from "react-router-dom";
 import {TablePaginationConfig} from "antd/lib/table/interface";
+import AddPackModal from "../../modals/AddPackModal/AddPackModal";
+import EditPackModal from "../../modals/EditPackModal/EditPackModal";
 
 const PacksTable = () => {
 
@@ -31,6 +32,10 @@ const PacksTable = () => {
     const searchTerm = useTypedSelector(state => state.packsTable.searchTerm)
     const isLoggedIn = useTypedSelector(state => state.login.isLoggedIn)
     const sort = useTypedSelector(state => state.packsTable.sort)
+
+    const [showAddPackModal, setShowAddPackModal] = useState<boolean>(false)
+    const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false)
+    const [selectedRow, setSelectedRow] = useState<string>('')
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -99,6 +104,8 @@ const PacksTable = () => {
                     packId={record._id}
                     onDeletePack={handleDeletePack}
                     onUpdatePack={handleUpdatePack}
+                    isEditPackModalOpened={showEditPackModal}
+                    showEditPackModal={setShowEditPackModal}
                     showCards={() => {
                         navigate(`/packs/${record._id}/cards`)
                     }}
@@ -121,9 +128,6 @@ const PacksTable = () => {
             dispatch(setSortPacksValue('1updated'))
         }
     }, [])
-    const handleAddPack = () => {
-        dispatch(addPackThunk('alo'))
-    }
     const handleDeletePack = useCallback((packId: string) => {
         dispatch(deletePackThunk(packId))
     }, [])
@@ -134,12 +138,6 @@ const PacksTable = () => {
     const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
         const searchInputValue = e.currentTarget.value
         dispatch(setSearchPackValue(searchInputValue))
-    }
-    const handleSortPacks = () => {
-        dispatch(setSortPacksValue('0updated'))
-    }
-    const handleSortPacks1 = () => {
-        dispatch(setSortPacksValue('1updated'))
     }
     const showMyPacks = () => {
         // searchingPacks = packsData.filter(pack => pack.user_id === '618fae1fda4cff00045585fb')
@@ -160,8 +158,6 @@ const PacksTable = () => {
                         <div className={s.showPacksButtons}>
                             <Button onClick={showMyPacks}>My</Button>
                             <Button onClick={showAllPacks}>All</Button>
-                            <Button onClick={handleSortPacks}>sort0</Button>
-                            <Button onClick={handleSortPacks1}>sort1</Button>
                         </div>
                     </div>
                     <div>
@@ -179,6 +175,8 @@ const PacksTable = () => {
             </Sider>
             <Content>
                 <div className={s.tableContainer}>
+                    <AddPackModal isOpened={showAddPackModal} onClose={() => setShowAddPackModal(false)} />
+                    <EditPackModal packId={selectedRow} isOpened={showEditPackModal} onClose={() => setShowEditPackModal(false)} />
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'}
@@ -186,7 +184,7 @@ const PacksTable = () => {
                                onInput={handleSearchPack}
                                value={searchTerm}
                         />
-                        <Button type={'primary'} shape={'round'} onClick={handleAddPack}>Add new pack</Button>
+                        <Button type={'primary'} shape={'round'} onClick={() => setShowAddPackModal(true)}>Add new pack</Button>
                     </div>
                     <Table
                         columns={columns}
@@ -196,6 +194,11 @@ const PacksTable = () => {
                         onChange={handleTableChange}
                         scroll={{y: 650}}
                         rowKey={(row) => row._id}
+                        onRow={(record: PackType) => {
+                            return {
+                                onClick: () => setSelectedRow(record._id)
+                            }
+                        }}
                     />
                 </div>
             </Content>

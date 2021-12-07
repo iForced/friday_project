@@ -1,5 +1,5 @@
 
-import {AddPackResponseType, DeletePackResponseType, GetPacksResponseType} from "./types";
+import {AddPackResponseType, DeletePackResponseType, GetPacksResponseType, UpdatePackResponseType} from "./types";
 import {instance} from "../api";
 
 export const packsApi = () => {
@@ -19,7 +19,7 @@ export const packsApi = () => {
             return instance.delete<DeletePackResponseType>(`/cards/pack?id=${packId}`)
         },
         updatePack(packId: string, newPackName: string) {
-            return instance.put(`/cards/pack`, {cardsPack: {_id: packId, name: newPackName}})
+            return instance.put<UpdatePackResponseType>(`/cards/pack`, {cardsPack: {_id: packId, name: newPackName}})
         }
     }
 }

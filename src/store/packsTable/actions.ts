@@ -87,7 +87,6 @@ export const setSortPacksValue = (sort: string) => {
     } as const
 }
 
-
 export const getPacksThunk = (pageNumber: number, pageSize: number, packName?: string, sort?: string) => (dispatch: Dispatch) => {
     dispatch(setIsFetching(true))
     packsApi().getPacks(pageNumber, pageSize, packName, sort)
@@ -137,9 +136,9 @@ export const updatePackThunk = (packId: string, newPackName: string) => (dispatc
     dispatch(setIsFetching(true))
     packsApi().updatePack(packId, newPackName)
         .then(response => response.data)
-        .then(() => {
+        .then(data => {
             dispatch(setIsFetching(false))
-            dispatch(updatePack(packId, newPackName))
+            dispatch(updatePack(packId, data.updatedCardsPack.name))
             dispatch(getPacksThunk(page, packsPerPage, searchTerm, sort))
         })
         .catch(err => {
