@@ -15,6 +15,7 @@ import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
 import {CardType} from "../../store/cards/cardsTypes";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 import AddCardModal from "../../modals/AddCardModal/AddCardModal";
+import EditCardModal from "../../modals/EditCardModal/EditCardModal";
 
 
 const Cards = React.memo(() => {
@@ -30,6 +31,9 @@ const Cards = React.memo(() => {
         const sort = useTypedSelector(state => state.cards.sort)
 
     const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false)
+    const [showEditCardModal, setShowEditCardModal] = useState<boolean>(false)
+    const [showDeleteCardModal, setShowDeleteCardModal] = useState<boolean>(false)
+    const [selectedCard, setSelectedCard] = useState<string>('')
 
     const columns = [
             {title: 'Question', dataIndex: 'question', width: '28%'},
@@ -42,7 +46,14 @@ const Cards = React.memo(() => {
             {
                 title: 'Actions', width: '18%',
                 render: (_: any, record: CardType) => {
-                    return <ActionsCardColumn _id={record._id} onDeleteCard={toDeleteCard} onEditCard={toEditCard}/>
+                    return <ActionsCardColumn
+                        card_id={record._id}
+                        packId={cardsPack_id!}
+                        onDeleteCard={toDeleteCard}
+                        onEditCard={toEditCard}
+                        showEditCardModal={setShowEditCardModal}
+                        showDeleteCardModal={setShowDeleteCardModal}
+                    />
                 }
             },
         ]
@@ -110,6 +121,7 @@ const Cards = React.memo(() => {
                 <Content>
                     <div className={s.cardsContainer}>
                         <AddCardModal isOpened={showAddCardModal} onClose={() => setShowAddCardModal(false)} packId={cardsPack_id!} />
+                        <EditCardModal isOpened={showEditCardModal} packId={cardsPack_id!} cardId={selectedCard} onClose={() => setShowEditCardModal(false)} />
                         <h2>Cards page</h2>
                         <div className={s.cardsContainerHeader}>
                             <Input placeholder={'Search...'}
@@ -127,6 +139,11 @@ const Cards = React.memo(() => {
                             onChange={handleTableChange}
                             scroll={{y: 650}}
                             rowKey={(row) => row._id}
+                            onRow={(record: CardType) => {
+                                return {
+                                    onClick: () => setSelectedCard(record._id)
+                                }
+                            }}
                         />
                     </div>
                 </Content>

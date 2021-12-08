@@ -32,7 +32,7 @@ const PacksTable = () => {
     const [showAddPackModal, setShowAddPackModal] = useState<boolean>(false)
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false)
     const [showDeletePackModal, setShowDeletePackModal] = useState<boolean>(false)
-    const [selectedRow, setSelectedRow] = useState<string>('')
+    const [selectedPack, setSelectedPack] = useState<string>('')
 
     useEffect(() => {
         if (!isLoggedIn) {
@@ -165,8 +165,8 @@ const PacksTable = () => {
             <Content>
                 <div className={s.tableContainer}>
                     <AddPackModal isOpened={showAddPackModal} onClose={() => setShowAddPackModal(false)} />
-                    <EditPackModal packId={selectedRow} isOpened={showEditPackModal} onClose={() => setShowEditPackModal(false)} />
-                    <DeletePackModal packId={selectedRow} isOpened={showDeletePackModal} onClose={() => setShowDeletePackModal(false)} />
+                    <EditPackModal packId={selectedPack} isOpened={showEditPackModal} onClose={() => setShowEditPackModal(false)} />
+                    <DeletePackModal packId={selectedPack} isOpened={showDeletePackModal} onClose={() => setShowDeletePackModal(false)} />
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'}
@@ -186,7 +186,7 @@ const PacksTable = () => {
                         rowKey={(row) => row._id}
                         onRow={(record: PackType) => {
                             return {
-                                onClick: () => setSelectedRow(record._id)
+                                onClick: () => setSelectedPack(record._id)
                             }
                         }}
                     />
