@@ -1,14 +1,10 @@
-import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import s from './Cards.module.css';
 import {Button, Layout, notification, Rate, Table} from "antd";
 import {Input} from 'antd';
 import {Content} from "antd/es/layout/layout";
 import {useDispatch} from "react-redux";
-import {
-    fetchCardError,
-    fetchCardsPayload, removeCardPayload,
-    setCardPayload, setGradeCardPayload, setPage, setSearchCardValue, setSortCardsValue, updateCardPayload
-} from "../../store/cards/cardsActions";
+import {fetchCardError, fetchCardsPayload, setGradeCardPayload, setPage, setSearchCardValue, setSortCardsValue} from "../../store/cards/cardsActions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useParams} from "react-router-dom";
 import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
@@ -16,6 +12,7 @@ import {CardType} from "../../store/cards/cardsTypes";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 import AddCardModal from "../../modals/AddCardModal/AddCardModal";
 import EditCardModal from "../../modals/EditCardModal/EditCardModal";
+import DeleteCardModal from "../../modals/DeleteCardModal/DeleteCardModal";
 
 
 const Cards = React.memo(() => {
@@ -49,8 +46,6 @@ const Cards = React.memo(() => {
                     return <ActionsCardColumn
                         card_id={record._id}
                         packId={cardsPack_id!}
-                        onDeleteCard={toDeleteCard}
-                        onEditCard={toEditCard}
                         showEditCardModal={setShowEditCardModal}
                         showDeleteCardModal={setShowDeleteCardModal}
                     />
@@ -102,16 +97,10 @@ const Cards = React.memo(() => {
                 dispatch(setSortCardsValue('1grade'))
             }
         }
-        const toDeleteCard = useCallback((cardId: string) => {
-            dispatch(removeCardPayload(cardId, cardsPack_id!))
-        }, [])
         const handleSearchCard = (e: ChangeEvent<HTMLInputElement>) => {
             const searchInputValue = e.currentTarget.value
             dispatch(setSearchCardValue(searchInputValue))
         }
-        const toEditCard = useCallback((cardId: string) => {
-            dispatch(updateCardPayload(cardsPack_id!, cardId, 'new question'))
-        }, [])
         const toGradeCard = (cardId: string, grade: number) => {
             dispatch(setGradeCardPayload(cardsPack_id!, cardId, grade))
         }
@@ -122,6 +111,7 @@ const Cards = React.memo(() => {
                     <div className={s.cardsContainer}>
                         <AddCardModal isOpened={showAddCardModal} onClose={() => setShowAddCardModal(false)} packId={cardsPack_id!} />
                         <EditCardModal isOpened={showEditCardModal} packId={cardsPack_id!} cardId={selectedCard} onClose={() => setShowEditCardModal(false)} />
+                        <DeleteCardModal isOpened={showDeleteCardModal} packId={cardsPack_id!} cardId={selectedCard} onClose={() => setShowDeleteCardModal(false)} />
                         <h2>Cards page</h2>
                         <div className={s.cardsContainerHeader}>
                             <Input placeholder={'Search...'}

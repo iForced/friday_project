@@ -4,10 +4,8 @@ import {Button} from "antd";
 
 
 type PropsType = {
-    card_id: string | undefined
+    card_id: string
     packId: string
-    onDeleteCard: (_id: string ) => void
-    onEditCard: (cardId: string) => void
     showEditCardModal: Dispatch<SetStateAction<boolean>>
     showDeleteCardModal: Dispatch<SetStateAction<boolean>>
 }
@@ -16,9 +14,7 @@ const ActionsCardColumn = React.memo((props: PropsType) => {
     return (
         <div className={s.buttons}>
             <Button onClick={() => props.showEditCardModal(true)}>Edit</Button>
-            <Button danger type={'primary'} onClick={() => {
-               props.card_id && props.onDeleteCard(props.card_id)
-            }}>Delete</Button>
+            <Button danger type={'primary'} onClick={() => props.showDeleteCardModal(true)}>Delete</Button>
         </div>
     );
 })
