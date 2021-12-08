@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useCallback, useEffect} from 'react';
+import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import s from './Cards.module.css';
 import {Button, Layout, notification, Rate, Table} from "antd";
 import {Input} from 'antd';
@@ -14,6 +14,7 @@ import {useParams} from "react-router-dom";
 import ActionsCardColumn from "./ActionsCardColumn/ActionsCardColumn";
 import {CardType} from "../../store/cards/cardsTypes";
 import {TablePaginationConfig} from "antd/lib/table/interface";
+import AddCardModal from "../../modals/AddCardModal/AddCardModal";
 
 
 const Cards = React.memo(() => {
@@ -28,8 +29,9 @@ const Cards = React.memo(() => {
         const isFetching = useTypedSelector(state => state.cards.isFetching)
         const sort = useTypedSelector(state => state.cards.sort)
 
+    const [showAddCardModal, setShowAddCardModal] = useState<boolean>(false)
 
-        const columns = [
+    const columns = [
             {title: 'Question', dataIndex: 'question', width: '28%'},
             {title: 'Answer', dataIndex: 'answer', width: '28%'},
             {title: 'Last updated', dataIndex: 'updated', width: '13%'},
@@ -89,9 +91,6 @@ const Cards = React.memo(() => {
                 dispatch(setSortCardsValue('1grade'))
             }
         }
-        const addCard = () => {
-            dispatch(setCardPayload(cardsPack_id!, 'kavo?', 'wo', 4))
-        }
         const toDeleteCard = useCallback((cardId: string) => {
             dispatch(removeCardPayload(cardId, cardsPack_id!))
         }, [])
@@ -110,6 +109,7 @@ const Cards = React.memo(() => {
             <Layout style={{height: '100vh'}}>
                 <Content>
                     <div className={s.cardsContainer}>
+                        <AddCardModal isOpened={showAddCardModal} onClose={() => setShowAddCardModal(false)} packId={cardsPack_id!} />
                         <h2>Cards page</h2>
                         <div className={s.cardsContainerHeader}>
                             <Input placeholder={'Search...'}
@@ -117,7 +117,7 @@ const Cards = React.memo(() => {
                                    onInput={handleSearchCard}
                                    value={searchTerm}
                             />
-                            <Button type={'primary'} shape={'round'} onClick={addCard}>Add new card</Button>
+                            <Button type={'primary'} shape={'round'} onClick={() => setShowAddCardModal(true)}>Add new card</Button>
                         </div>
                         <Table
                             columns={columns}
