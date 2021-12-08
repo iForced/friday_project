@@ -2,12 +2,7 @@ import React, {ChangeEvent, useCallback, useEffect, useState} from 'react';
 import s from './PacksTable.module.css'
 import {Button, Input, Layout, notification, Slider, Table} from "antd";
 import {useDispatch} from "react-redux";
-import {
-    deletePackThunk,
-    getPacksThunk,
-    setPage,
-    setPageSize, setSearchPackValue, setSortPacksValue, updatePackThunk
-} from "../../store/packsTable/actions";
+import {getPacksThunk, setPage, setPageSize, setSearchPackValue, setSortPacksValue} from "../../store/packsTable/actions";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Sider from "antd/es/layout/Sider";
 import {Content} from "antd/es/layout/layout";
@@ -18,6 +13,7 @@ import {useNavigate} from "react-router-dom";
 import {TablePaginationConfig} from "antd/lib/table/interface";
 import AddPackModal from "../../modals/AddPackModal/AddPackModal";
 import EditPackModal from "../../modals/EditPackModal/EditPackModal";
+import DeletePackModal from "../../modals/DeletePackModal/DeletePackModal";
 
 const PacksTable = () => {
 
@@ -35,6 +31,7 @@ const PacksTable = () => {
 
     const [showAddPackModal, setShowAddPackModal] = useState<boolean>(false)
     const [showEditPackModal, setShowEditPackModal] = useState<boolean>(false)
+    const [showDeletePackModal, setShowDeletePackModal] = useState<boolean>(false)
     const [selectedRow, setSelectedRow] = useState<string>('')
 
     useEffect(() => {
@@ -102,10 +99,8 @@ const PacksTable = () => {
             render: (_: any, record: PackType) => (
                 <ActionsColumn
                     packId={record._id}
-                    onDeletePack={handleDeletePack}
-                    onUpdatePack={handleUpdatePack}
-                    isEditPackModalOpened={showEditPackModal}
                     showEditPackModal={setShowEditPackModal}
+                    showDeletePackModal={setShowDeletePackModal}
                     showCards={() => {
                         navigate(`/packs/${record._id}/cards`)
                     }}
@@ -127,12 +122,6 @@ const PacksTable = () => {
         } else if (sorter.order === 'descend') {
             dispatch(setSortPacksValue('1updated'))
         }
-    }, [])
-    const handleDeletePack = useCallback((packId: string) => {
-        dispatch(deletePackThunk(packId))
-    }, [])
-    const handleUpdatePack = useCallback((packId: string, newPackName: string) => {
-        dispatch(updatePackThunk(packId, newPackName))
     }, [])
 
     const handleSearchPack = (e: ChangeEvent<HTMLInputElement>) => {
@@ -177,6 +166,7 @@ const PacksTable = () => {
                 <div className={s.tableContainer}>
                     <AddPackModal isOpened={showAddPackModal} onClose={() => setShowAddPackModal(false)} />
                     <EditPackModal packId={selectedRow} isOpened={showEditPackModal} onClose={() => setShowEditPackModal(false)} />
+                    <DeletePackModal packId={selectedRow} isOpened={showDeletePackModal} onClose={() => setShowDeletePackModal(false)} />
                     <h2>Pack list</h2>
                     <div className={s.tableContainerHeader}>
                         <Input placeholder={'Search...'}

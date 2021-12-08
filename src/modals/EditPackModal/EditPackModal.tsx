@@ -10,6 +10,7 @@ type PropsType = {
 }
 
 const EditPackModal = (props: PropsType) => {
+
     const dispatch = useDispatch()
 
     const [newPackName, setNewPackName] = useState<string>('')
