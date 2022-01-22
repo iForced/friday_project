@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/friday_project/static/css/main.0f707bdc.chunk.css",
-    "main.js": "/friday_project/static/js/main.2dde2c0d.chunk.js",
-    "main.js.map": "/friday_project/static/js/main.2dde2c0d.chunk.js.map",
-    "runtime-main.js": "/friday_project/static/js/runtime-main.f8a68d86.js",
-    "runtime-main.js.map": "/friday_project/static/js/runtime-main.f8a68d86.js.map",
-    "static/css/2.a95be28f.chunk.css": "/friday_project/static/css/2.a95be28f.chunk.css",
-    "static/js/2.be18edf7.chunk.js": "/friday_project/static/js/2.be18edf7.chunk.js",
-    "static/js/2.be18edf7.chunk.js.map": "/friday_project/static/js/2.be18edf7.chunk.js.map",
-    "index.html": "/friday_project/index.html",
-    "static/css/2.a95be28f.chunk.css.map": "/friday_project/static/css/2.a95be28f.chunk.css.map",
-    "static/css/main.0f707bdc.chunk.css.map": "/friday_project/static/css/main.0f707bdc.chunk.css.map",
-    "static/js/2.be18edf7.chunk.js.LICENSE.txt": "/friday_project/static/js/2.be18edf7.chunk.js.LICENSE.txt",
-    "static/media/react.d438ac68.svg": "/friday_project/static/media/react.d438ac68.svg"
+    "main.css": "/Cards/static/css/main.f672476e.chunk.css",
+    "main.js": "/Cards/static/js/main.02445a62.chunk.js",
+    "main.js.map": "/Cards/static/js/main.02445a62.chunk.js.map",
+    "runtime-main.js": "/Cards/static/js/runtime-main.0739eeb9.js",
+    "runtime-main.js.map": "/Cards/static/js/runtime-main.0739eeb9.js.map",
+    "static/css/2.a95be28f.chunk.css": "/Cards/static/css/2.a95be28f.chunk.css",
+    "static/js/2.57ac82cb.chunk.js": "/Cards/static/js/2.57ac82cb.chunk.js",
+    "static/js/2.57ac82cb.chunk.js.map": "/Cards/static/js/2.57ac82cb.chunk.js.map",
+    "index.html": "/Cards/index.html",
+    "static/css/2.a95be28f.chunk.css.map": "/Cards/static/css/2.a95be28f.chunk.css.map",
+    "static/css/main.f672476e.chunk.css.map": "/Cards/static/css/main.f672476e.chunk.css.map",
+    "static/js/2.57ac82cb.chunk.js.LICENSE.txt": "/Cards/static/js/2.57ac82cb.chunk.js.LICENSE.txt",
+    "static/media/react.4c89d1c3.svg": "/Cards/static/media/react.4c89d1c3.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f8a68d86.js",
+    "static/js/runtime-main.0739eeb9.js",
     "static/css/2.a95be28f.chunk.css",
-    "static/js/2.be18edf7.chunk.js",
-    "static/css/main.0f707bdc.chunk.css",
-    "static/js/main.2dde2c0d.chunk.js"
+    "static/js/2.57ac82cb.chunk.js",
+    "static/css/main.f672476e.chunk.css",
+    "static/js/main.02445a62.chunk.js"
   ]
 }
